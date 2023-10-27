@@ -9,7 +9,7 @@ import ReportPage from './pages/ReportPage'
 
 const router = createBrowserRouter([
   {
-    element: <NavBar/>,
+    element: <NavBar />,
     children: [
       {
         path: '/',
