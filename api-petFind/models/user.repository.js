@@ -1,4 +1,4 @@
-const pool = require('../configs/db.config')
+const pool = require('../config/db.config')
 
 class User {
   constructor () {
@@ -8,7 +8,7 @@ class User {
   async create (user) {
     try {
       const query = {
-        text: 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
+        text: 'INSERT INTO users (name, surname, email, profile_picture) VALUES ($1, $2, $3, $4) RETURNING *',
         values: [user.name, user.surname, user.email, user.profile_picture]
       }
       const result = await this.pool.query(query)
@@ -27,6 +27,19 @@ class User {
       }
       const result = await this.pool.query(query)
       return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async saveToken (userId, accessToken) {
+    try {
+      const query = {
+        text: 'INSERT INTO tokens (user_id, access_token) VALUES ($1, $2)',
+        values: [userId, accessToken]
+      }
+      await this.pool.query(query)
     } catch (error) {
       console.log(error)
       throw error

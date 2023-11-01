@@ -1,30 +1,34 @@
-require('../configs/passport.config')
+require('../config/passport.config')
 const passport = require('passport')
 const User = require('../models/user.repository')
+const { createToken } = require('../config/jwt.config')
 const autenticateWithGoogle = passport.authenticate('google', { scope: ['openid', 'email', 'profile'] })
 
 const handleGoogleCallback = async (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, async (err, user, info) => {
     if (err) {
-      return next(err) // Manejar errores si los hubiera
+      return next(err)
     }
-
-    console.log('user', user)
-    console.log('info', info)
 
     const existingUser = await User.findByEmail(user.emails[0].value)
 
-    console.log('existingUser', existingUser)
-
     if (existingUser) {
-      console.log('Usuario ya existe')
+      const accessToken = info.accessToken
+      const jwtToken = createToken(accessToken)
+      await User.saveToken(existingUser.id, jwtToken)
     } else {
-      console.log('Usuario no existe')
+      const newUser = {
+        name: user.name.givenName,
+        surname: user.name.familyName,
+        email: user.emails[0].value,
+        profile_picture: user.photos[0].value
+      }
+      const createdUser = await User.create(newUser)
+      console.log('Usuario creado', createdUser)
     }
 
-    // Redirección en caso de autenticación exitosa
     res.redirect('http://localhost:5173')
-  })(req, res, next)
+  }) (req, res, next)
 }
 
 const logout = (req, res) => {
