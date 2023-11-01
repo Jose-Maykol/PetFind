@@ -1,4 +1,3 @@
-console.log('passport.config.js')
 require('dotenv').config()
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
@@ -8,12 +7,11 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET
 passport.use(new GoogleStrategy({
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: 'http://localhost:8000/auth/google/callback'
+  callbackURL: 'http://localhost:8000/auth/google/callback',
+  scope: ['openid', 'email', 'profile'],
+  accessType: 'offline'
 }, (accessToken, refreshToken, profile, done) => {
-  console.log('accessToken', accessToken)
-  console.log('refreshToken', refreshToken)
-  console.log(profile)
-  return done(null, profile)
+  return done(null, profile, { accessToken, refreshToken })
 }))
 
 passport.serializeUser((user, done) => {
