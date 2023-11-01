@@ -3,17 +3,13 @@ const jwt = require('jsonwebtoken')
 
 const jwtSecret = process.env.SECRET_KEY
 
-const createToken = (accessToken) => {
-  const payload = {
-    accessToken
-  }
-  return jwt.sign(payload, jwtSecret, { expiresIn: '1h' })
+const createToken = (userData) => {
+  return jwt.sign(userData, jwtSecret, { expiresIn: '24h' })
 }
 
 const verifyToken = (token) => {
   try {
-    const accessToken = jwt.verify(token, jwtSecret)
-    return accessToken
+    return jwt.verify(token, jwtSecret)
   } catch (error) {
     console.log(error)
     return null

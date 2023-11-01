@@ -14,8 +14,16 @@ const handleGoogleCallback = async (req, res, next) => {
 
     if (existingUser) {
       const accessToken = info.accessToken
-      const jwtToken = createToken(accessToken)
+      const userData = {
+        accessToken,
+        name: user.name.givenName,
+        surname: user.name.familyName,
+        email: user.emails[0].value,
+        profile_picture: user.photos[0].value
+      }
+      const jwtToken = createToken(userData)
       await User.saveToken(existingUser.id, jwtToken)
+      res.cookie('accessToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
     } else {
       const newUser = {
         name: user.name.givenName,
@@ -28,7 +36,7 @@ const handleGoogleCallback = async (req, res, next) => {
     }
 
     res.redirect('http://localhost:5173')
-  }) (req, res, next)
+  })(req, res, next)
 }
 
 const logout = (req, res) => {
