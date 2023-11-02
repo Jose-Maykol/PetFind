@@ -26,6 +26,10 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth.routes')
 app.use('/auth', authRoutes)
 
+// Rutas de tipos de mascotas
+const petTypeRoutes = require('./routes/petType.routes')
+app.use('/pet-types', petTypeRoutes)
+
 app.get('*', (req, res) => {
   res.send('404| Page not found')
 })
