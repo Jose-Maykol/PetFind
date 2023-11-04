@@ -46,8 +46,24 @@ const getPetReport = async (req, res) => {
   }
 }
 
+const editPetReport = async (req, res) => {
+  try {
+    const pet = await Pet.edit(req.body)
+    const response = {
+      status: 1,
+      data: {
+        pet
+      }
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 module.exports = {
   createPetReport,
   listPetReports,
+  editPetReport,
   getPetReport
 }

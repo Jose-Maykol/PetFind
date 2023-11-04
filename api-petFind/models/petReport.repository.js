@@ -19,6 +19,20 @@ class Pet {
     }
   }
 
+  async edit (pet) {
+    try {
+      const query = {
+        text: 'UPDATE pets SET user_id = $1, pet_type_id = $2, report_status_id = $3, name = $4, age_years = $5, age_months = $6, description = $7, loss_date = $8, photo = $9, phone = $10, reward = $11, coordinates = $12 WHERE id = $13 RETURNING *',
+        values: [pet.user_id, pet.pet_type_id, pet.report_status_id, pet.name, pet.age_years, pet.age_months, pet.description, pet.loss_date, pet.photo, pet.phone, pet.reward, pet.coordinates, pet.id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
   async list () {
     try {
       const query = {
@@ -40,6 +54,20 @@ class Pet {
       }
       const result = await this.pool.query(query)
       return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async getUserPets (id) {
+    try {
+      const query = {
+        text: 'SELECT * FROM pets WHERE user_id = $1',
+        values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows
     } catch (error) {
       console.log(error)
       throw error
