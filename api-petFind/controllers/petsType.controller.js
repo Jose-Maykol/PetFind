@@ -1,8 +1,8 @@
-const petTypeRepository = require('../models/petType.repository')
+const PetType = require('../models/petType.repository')
 
 const getAll = async (req, res) => {
   try {
-    const petTypes = await petTypeRepository.getAll()
+    const petTypes = await PetType.getAll()
     const response = {
       status: 1,
       data: {
