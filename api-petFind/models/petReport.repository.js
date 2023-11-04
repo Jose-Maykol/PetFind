@@ -22,10 +22,24 @@ class Pet {
   async list () {
     try {
       const query = {
-        text: 'SELECT name, loss_date, photo, phone, reward, coordinates FROM pets'
+        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets'
       }
       const result = await this.pool.query(query)
       return result.rows
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async get (id) {
+    try {
+      const query = {
+        text: 'SELECT * FROM pets WHERE id = $1',
+        values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0]
     } catch (error) {
       console.log(error)
       throw error

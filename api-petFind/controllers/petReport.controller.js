@@ -31,7 +31,23 @@ const listPetReports = async (req, res) => {
   }
 }
 
+const getPetReport = async (req, res) => {
+  try {
+    const pet = await Pet.get(req.params.id)
+    const response = {
+      status: 1,
+      data: {
+        pet
+      }
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 module.exports = {
   createPetReport,
-  listPetReports
+  listPetReports,
+  getPetReport
 }
