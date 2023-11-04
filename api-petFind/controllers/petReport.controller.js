@@ -1,4 +1,4 @@
-const Pet = require('../models/pet.repository')
+const Pet = require('../models/petReport.repository')
 
 const createPetReport = async (req, res) => {
   try {
@@ -16,6 +16,22 @@ const createPetReport = async (req, res) => {
   }
 }
 
+const listPetReports = async (req, res) => {
+  try {
+    const pets = await Pet.list()
+    const response = {
+      status: 1,
+      data: {
+        pets
+      }
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 module.exports = {
-  createPetReport
+  createPetReport,
+  listPetReports
 }

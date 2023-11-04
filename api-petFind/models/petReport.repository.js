@@ -18,6 +18,19 @@ class Pet {
       throw error
     }
   }
+
+  async list () {
+    try {
+      const query = {
+        text: 'SELECT name, loss_date, photo, phone, reward, coordinates FROM pets'
+      }
+      const result = await this.pool.query(query)
+      return result.rows
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 }
 
 module.exports = new Pet()

@@ -1,7 +1,8 @@
 const { Router } = require('express')
 const router = Router()
-const { createPetReport } = require('../controllers/petReport.controller')
+const { createPetReport, listPetReports } = require('../controllers/petReport.controller')
 
+router.get('/', listPetReports)
 router.post('/own', createPetReport)
 
 module.exports = router
