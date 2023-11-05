@@ -26,7 +26,7 @@ const listPetReports = async (req, res) => {
     const response = {
       status: 1,
       data: {
-        pets
+        pet_reports: pets
       }
     }
     res.status(200).json(response)
@@ -37,11 +37,11 @@ const listPetReports = async (req, res) => {
 
 const getPetReport = async (req, res) => {
   try {
-    const pet = await Pet.get(req.params.id)
+    const petReport = await Pet.get(req.params.id)
     const response = {
       status: 1,
       data: {
-        pet
+        pet_report: petReport
       }
     }
     res.status(200).json(response)

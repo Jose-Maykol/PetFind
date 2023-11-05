@@ -49,7 +49,7 @@ class Pet {
   async get (id) {
     try {
       const query = {
-        text: 'SELECT * FROM pets WHERE id = $1',
+        text: 'SELECT pets.*, users.name AS user_name, users.surname AS user_surname, users.profile_picture AS user_profile_picture FROM pets INNER JOIN users ON pets.user_id = users.id WHERE pets.id = $1',
         values: [id]
       }
       const result = await this.pool.query(query)
