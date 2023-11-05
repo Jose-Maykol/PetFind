@@ -1,20 +1,20 @@
 const { verifyToken } = require('../config/jwt.config')
 
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.accessToken
+  const token = req.header('Authorization')
 
-  if (!token) {
-    return res.status(401).json({ message: 'Token not found' })
+  if (!token || !token.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Token no encontrado' })
   }
 
-  const userData = verifyToken(token)
+  const jwtToken = token.split('Bearer ')[1]
+  const userData = verifyToken(jwtToken)
 
   if (!userData) {
-    return res.status(401).json({ message: 'Invalid token' })
+    return res.status(401).json({ message: 'Token inválido' })
   }
-
+  console.log('userData', userData)
   req.user = userData
-
   next()
 }
 

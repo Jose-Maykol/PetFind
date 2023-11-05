@@ -15,7 +15,6 @@ const handleGoogleCallback = async (req, res, next) => {
     if (existingUser) {
       const accessToken = info.accessToken
       const userData = {
-        accessToken,
         name: user.name.givenName,
         surname: user.name.familyName,
         email: user.emails[0].value,
@@ -23,7 +22,8 @@ const handleGoogleCallback = async (req, res, next) => {
       }
       const jwtToken = createToken(userData)
       await User.saveToken(existingUser.id, jwtToken)
-      res.cookie('accessToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
+      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000 })
+      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
     } else {
       const newUser = {
         name: user.name.givenName,
