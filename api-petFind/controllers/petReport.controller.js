@@ -3,12 +3,16 @@ const Pet = require('../models/petReport.repository')
 const createPetReport = async (req, res) => {
   try {
     console.log(req.body)
-    const pet = await Pet.create(req.body)
+    const userId = req.user.id
+    const reportPetData = {
+      ...req.body,
+      user_id: userId
+    }
+    const newReportPet = await Pet.create(reportPetData)
     const response = {
       status: 1,
-      data: {
-        pet
-      }
+      message: 'Reporte creado con éxito',
+      data: newReportPet
     }
     res.status(201).json(response)
   } catch (error) {

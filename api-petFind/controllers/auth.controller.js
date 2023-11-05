@@ -15,6 +15,7 @@ const handleGoogleCallback = async (req, res, next) => {
     if (existingUser) {
       const accessToken = info.accessToken
       const userData = {
+        id: existingUser.id,
         name: user.name.givenName,
         surname: user.name.familyName,
         email: user.emails[0].value,
