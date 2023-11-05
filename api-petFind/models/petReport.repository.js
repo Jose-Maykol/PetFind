@@ -46,6 +46,20 @@ class Pet {
     }
   }
 
+  async listOwn (id) {
+    try {
+      const query = {
+        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets WHERE user_id = $1',
+        values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
   async get (id) {
     try {
       const query = {
