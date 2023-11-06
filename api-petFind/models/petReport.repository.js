@@ -19,7 +19,7 @@ class Pet {
     }
   }
 
-  async edit (pet) {
+  async update (pet) {
     try {
       const query = {
         text: 'UPDATE pets SET user_id = $1, pet_type_id = $2, report_status_id = $3, name = $4, age_years = $5, age_months = $6, description = $7, loss_date = $8, photo = $9, phone = $10, reward = $11, coordinates = $12 WHERE id = $13 RETURNING *',
@@ -65,6 +65,20 @@ class Pet {
       const query = {
         text: 'SELECT pets.*, users.name AS user_name, users.surname AS user_surname, users.profile_picture AS user_profile_picture FROM pets INNER JOIN users ON pets.user_id = users.id WHERE pets.id = $1',
         values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async getOwn (id, userId) {
+    try {
+      const query = {
+        text: 'SELECT * FROM pets WHERE id = $1 AND user_id = $2',
+        values: [id, userId]
       }
       const result = await this.pool.query(query)
       return result.rows[0]
