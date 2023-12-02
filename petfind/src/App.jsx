@@ -2,10 +2,16 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom'
+import {
+  QueryClient,
+  QueryClientProvider
+} from 'react-query'
 import './index.css'
 import NavBar from './components/NavBar'
 import HomePage from './pages/HomePage'
 import ReportPage from './pages/ReportPage'
+
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -25,7 +31,9 @@ const router = createBrowserRouter([
 
 function App () {
   return (
+    <QueryClientProvider client={queryClient}>
     <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 

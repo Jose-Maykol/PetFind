@@ -21,7 +21,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', (req, res) => {
-  res.send('PetFind')
+  res.status(200).json({ message: 'PetFind API' })
 })
 
 // Rutas de autenticación
