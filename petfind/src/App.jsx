@@ -8,8 +8,8 @@ import {
 } from 'react-query'
 import './index.css'
 import NavBar from './components/NavBar'
-import HomePage from './pages/HomePage'
 import ReportPage from './pages/ReportPage'
+import HomePage from './pages/Home/HomePage'
 
 const queryClient = new QueryClient()
 
