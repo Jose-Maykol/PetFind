@@ -3,6 +3,11 @@ import GoogleIcon from './Icons/GoogleIcon'
 import { Link, Outlet } from 'react-router-dom'
 
 export default function NavBar () {
+  const handleLoginWithGoogle = () => {
+    window.location.href = 'http://localhost:8000/auth/google'
+    console.log('Login with Google')
+  }
+
   return (
     <>
       <Navbar>
@@ -26,6 +31,7 @@ export default function NavBar () {
             <Button
               startContent={<GoogleIcon width={24} height={24} />}
               variant='bordered'
+              onClick={handleLoginWithGoogle}
             >
               <p className='font-semibold'>Iniciar sesión con Google</p>
             </Button>

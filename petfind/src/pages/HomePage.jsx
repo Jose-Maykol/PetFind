@@ -86,7 +86,8 @@ export default function HomePage () {
                       isIconOnly
                       color='primary'
                       aria-label='map-point'
-                      className='w-[30px] h-[30px] max-w-[30px] min-w-unit-1 rounded-md p-0'>
+                      className='w-[30px] h-[30px] max-w-[30px] min-w-unit-1 rounded-md p-0'
+                    >
                       <MapPointIcon width={20} height={20} fill='fill-white' />
                     </Button>
                   </div>
