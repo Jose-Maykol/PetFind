@@ -21,7 +21,7 @@ const handleGoogleCallback = async (req, res, next) => {
         email: user.emails[0].value,
         profile_picture: user.photos[0].value
       }
-      const jwtToken = createToken(userData)
+      const jwtToken = createToken({ userId: userData.id })
       // await User.saveToken(existingUser.id, jwtToken)
       res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000 })
       res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
@@ -33,9 +33,18 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const createdUser = await User.create(newUser)
-      console.log('Usuario creado', createdUser)
+      const accessToken = info.accessToken
+      const userData = {
+        id: createdUser.id,
+        name: user.name.givenName,
+        surname: user.name.familyName,
+        email: user.emails[0].value,
+        profile_picture: user.photos[0].value
+      }
+      const jwtToken = createToken({ userId: userData.id })
+      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000 })
+      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
     }
-
     res.redirect('http://localhost:5173')
   })(req, res, next)
 }
