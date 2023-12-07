@@ -22,7 +22,7 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const jwtToken = createToken(userData)
-      await User.saveToken(existingUser.id, jwtToken)
+      // await User.saveToken(existingUser.id, jwtToken)
       res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000 })
       res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
     } else {
