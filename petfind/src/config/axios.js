@@ -1,6 +1,7 @@
 import { camelizeKeys, decamelizeKeys } from 'humps'
 import axios from 'axios'
 import { API_URL } from './config'
+import Cookies from 'js-cookie'
 
 const api = axios.create({
   baseURL: API_URL
@@ -17,6 +18,8 @@ api.interceptors.response.use((response) => {
 })
 
 api.interceptors.request.use((config) => {
+  const jwtToken = Cookies.get('jwtToken')
+
   const newConfig = { ...config }
   newConfig.url = `${API_URL}${config.url}`
 
@@ -30,6 +33,10 @@ api.interceptors.request.use((config) => {
 
   if (config.data) {
     newConfig.data = decamelizeKeys(config.data)
+  }
+
+  if (jwtToken) {
+    newConfig.headers.Authorization = `Bearer ${jwtToken}`
   }
 
   return newConfig
