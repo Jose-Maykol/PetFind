@@ -8,13 +8,13 @@ const requireAuth = (req, res, next) => {
   }
 
   const jwtToken = token.split('Bearer ')[1]
-  const userData = verifyToken(jwtToken)
+  const userId = verifyToken(jwtToken)
 
-  if (!userData) {
+  if (!userId) {
     return res.status(401).json({ message: 'Token inválido' })
   }
-  console.log('userData', userData)
-  req.user = userData
+
+  req.user = userId
   next()
 }
 
