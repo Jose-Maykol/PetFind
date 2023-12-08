@@ -28,6 +28,9 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/auth.routes')
 app.use('/auth', authRoutes)
 
+const userRoutes = require('./routes/user.routes')
+app.use('/users', userRoutes)
+
 // Rutas de tipos de mascotas
 const petTypeRoutes = require('./routes/petType.routes')
 app.use('/pet-types', petTypeRoutes)

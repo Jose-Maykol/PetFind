@@ -1,7 +1,8 @@
 const { Router } = require('express')
 const router = Router()
-const { getAll } = require('../controllers/petsType.controller')
+const { getUserInfo } = require('../controllers/user.controller')
+const requireAuth = require('../middlewares/auth.middleare')
 
-router.get('/info', getAll)
+router.get('/info', requireAuth, getUserInfo)
 
 module.exports = router

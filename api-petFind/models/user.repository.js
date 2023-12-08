@@ -19,6 +19,20 @@ class User {
     }
   }
 
+  async findById (id) {
+    try {
+      const query = {
+        text: 'SELECT * FROM users WHERE id = $1',
+        values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
   async findByEmail (email) {
     try {
       const query = {

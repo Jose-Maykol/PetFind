@@ -1,7 +1,9 @@
 const userRepository = require('../models/user.repository')
 
-const userInfo = async (req, res, next) => {
-  const userId = req.cookies.userId
+const getUserInfo = async (req, res, next) => {
+  const { userId } = req.user
+
+  console.log(userId)
 
   if (!userId) {
     res.status(401).json({
@@ -20,10 +22,12 @@ const userInfo = async (req, res, next) => {
     }
     res.status(200).json(response)
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    if (!res.headersSent) {
+      res.status(500).json({ message: error.message })
+    }
   }
 }
 
 module.exports = {
-  userInfo
+  getUserInfo
 }
