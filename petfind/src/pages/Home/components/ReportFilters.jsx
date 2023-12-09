@@ -1,8 +1,19 @@
 import { Button, Checkbox, CheckboxGroup, Input } from '@nextui-org/react'
 import CalendarIcon from '../../../components/Icons/CalendarIcon'
 import SearchIcon from '../../../components/Icons/SearchIcon'
+import { useQuery } from 'react-query'
+import PetTypesService from '../../../services/PetTypesService'
 
 export default function ReportFilters () {
+  const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
+    retry: 2,
+    staleTime: Infinity
+  })
+
+  const petTypes = petTypesQuery.data?.data.petTypes
+
+  console.log(petTypes)
+
   return (
     <div className='w-1/3'>
       <div className='flex flex-row items-end gap-2 p-4'>
@@ -37,12 +48,16 @@ export default function ReportFilters () {
               label: 'text-small font-medium text-black'
             }}
           >
-            <Checkbox classNames={{ label: 'text-small' }} value='gato'>Gato</Checkbox>
-            <Checkbox classNames={{ label: 'text-small' }} value='perro'>Perro</Checkbox>
-            <Checkbox classNames={{ label: 'text-small' }} value='ave'>Ave</Checkbox>
-            <Checkbox classNames={{ label: 'text-small' }} value='reptil'>Reptil</Checkbox>
-            <Checkbox classNames={{ label: 'text-small' }} value='roedor'>Roedor</Checkbox>
-            <Checkbox classNames={{ label: 'text-small' }} value='otro'>Otro</Checkbox>
+            {petTypes?.map((petType) => (
+              <Checkbox
+                key={petType.id}
+                classNames={{ label: 'text-small' }}
+                value={petType.name}
+                className='capitalize'
+              >
+                {petType.tag}
+              </Checkbox>
+            ))}
           </CheckboxGroup>
         </div>
         <div>
