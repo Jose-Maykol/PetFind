@@ -33,10 +33,12 @@ class Pet {
     }
   }
 
-  async list () {
+  async list (page = 1, limit = 12) {
     try {
+      const offset = (page - 1) * limit
       const query = {
-        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets'
+        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets OFFSET $1 LIMIT $2',
+        values: [offset, limit]
       }
       const result = await this.pool.query(query)
       return result.rows
@@ -96,6 +98,19 @@ class Pet {
       }
       const result = await this.pool.query(query)
       return result.rows
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async getTotal () {
+    try {
+      const query = {
+        text: 'SELECT COUNT(*) FROM pets'
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0].count
     } catch (error) {
       console.log(error)
       throw error

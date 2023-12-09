@@ -22,11 +22,20 @@ const createPetReport = async (req, res) => {
 
 const listPetReports = async (req, res) => {
   try {
-    const pets = await Pet.list()
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 12
+
+    const pets = await Pet.list(page, limit)
+    const totalPets = await Pet.getTotal()
+
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
     const response = {
       status: 1,
       data: {
-        pet_reports: pets
+        pet_reports: pets,
+        total_pets: totalPets
       }
     }
     res.status(200).json(response)

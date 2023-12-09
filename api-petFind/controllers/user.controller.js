@@ -1,4 +1,4 @@
-const userRepository = require('../models/user.repository')
+const User = require('../models/user.repository')
 
 const getUserInfo = async (req, res, next) => {
   const { userId } = req.user
@@ -13,7 +13,7 @@ const getUserInfo = async (req, res, next) => {
   }
 
   try {
-    const userInfo = await userRepository.findById(userId)
+    const userInfo = await User.findById(userId)
     const response = {
       status: 1,
       data: {
