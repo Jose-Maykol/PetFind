@@ -27,7 +27,8 @@ export default function NavBar () {
 
   const userQuery = useQuery('user', UserService.getInfoUser, {
     enabled: isLogged,
-    retry: 2
+    retry: 2,
+    staleTime: Infinity
   })
 
   const userInfo = userQuery.data?.data.userInfo
