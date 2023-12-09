@@ -50,7 +50,7 @@ export default function ReportFilters () {
               <Checkbox
                 key={petType.id}
                 classNames={{ label: 'text-small' }}
-                value={petType.name}
+                value={petType.id}
                 className='capitalize'
               >
                 {petType.tag}

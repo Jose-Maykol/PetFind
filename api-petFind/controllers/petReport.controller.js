@@ -28,14 +28,11 @@ const listPetReports = async (req, res) => {
     const pets = await Pet.list(page, limit)
     const totalPets = await Pet.getTotal()
 
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-
     const response = {
       status: 1,
       data: {
         pet_reports: pets,
-        total_pets: totalPets
+        total_pages: Math.ceil(totalPets / limit)
       }
     }
     res.status(200).json(response)
