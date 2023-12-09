@@ -12,10 +12,8 @@ export default function ReportFilters () {
 
   const petTypes = petTypesQuery.data?.data.petTypes
 
-  console.log(petTypes)
-
   return (
-    <div className='w-1/3'>
+    <div className='w-full min-w-[250px] lg:w-1/3'>
       <div className='flex flex-row items-end gap-2 p-4'>
         <Input
           label='Buscar por nombre'
