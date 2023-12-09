@@ -10,6 +10,7 @@ import './index.css'
 import NavBar from './components/NavBar'
 import ReportPage from './pages/ReportPage'
 import HomePage from './pages/Home/HomePage'
+import MyReportsPage from './pages/MyReports/MyReportsPage'
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/report',
         element: <ReportPage />
+      },
+      {
+        path: '/my-reports',
+        element: <MyReportsPage />
       }
     ]
   }

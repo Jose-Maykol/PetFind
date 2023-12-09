@@ -14,7 +14,6 @@ export default function NavBar () {
 
   const handleLoginWithGoogle = () => {
     window.location.href = 'http://localhost:8000/auth/google'
-    console.log('Login with Google')
   }
 
   useEffect(() => {
@@ -57,6 +56,13 @@ export default function NavBar () {
               <p className='text-base font-semibold hover:text-neutral-500'>Reportar</p>
             </Link>
           </NavbarItem>
+          {isLogged && (
+            <NavbarItem>
+              <Link to='/my-reports'>
+                <p className='text-base font-semibold hover:text-neutral-500'>Mis reportes</p>
+              </Link>
+            </NavbarItem>
+          )}
         </NavbarContent>
         <NavbarContent justify='end'>
           <NavbarItem>
@@ -90,6 +96,13 @@ export default function NavBar () {
               <p className='text-base font-semibold hover:text-neutral-500'>Reportar</p>
             </Link>
           </NavbarMenuItem>
+          {isLogged && (
+            <NavbarMenuItem>
+              <Link to='/my-reports'>
+                <p className='text-base font-semibold hover:text-neutral-500'>Mis reportes</p>
+              </Link>
+            </NavbarMenuItem>
+          )}
         </NavbarMenu>
       </Navbar>
       <Outlet />
