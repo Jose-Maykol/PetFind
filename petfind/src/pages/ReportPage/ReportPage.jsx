@@ -6,6 +6,7 @@ import Calendar from 'react-calendar'
 import './ReportPage.css'
 import PetTypesService from '../../services/PetTypesService'
 import { useQuery } from 'react-query'
+import UploadPetPhoto from './components/UploadPetPhoto'
 
 export default function ReportPage () {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
@@ -41,49 +42,54 @@ export default function ReportPage () {
         <h2 className='font-bold text-lg'>Reportar mascota perdida</h2>
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 py-4'>
-            <Input
-              type='text'
-              name='name'
-              label='Nombre de la mascota'
-              labelPlacement='outside'
-              placeholder='Ingrese el nombre de la mascota'
-              classNames={{ label: 'text-neutral-400' }}
-              required
-            />
-            <Select
-              label='Tipo de mascota'
-              name='petTypeId'
-              labelPlacement='outside'
-              placeholder='Seleccione el tipo de mascota'
-              classNames={{ label: 'text-neutral-400', value: 'capitalize' }}
-              required
-            >
-              {petTypes?.map((petType) => (
-                <SelectItem key={petType.id} value={petType.id} className='capitalize'>
-                  {petType.tag}
-                </SelectItem>
-              ))}
-            </Select>
-            <div className='flex flex-row gap-2 items-end'>
-              <Input
-                type='number'
-                name='age_years'
-                label='Edad de la mascota'
-                labelPlacement='outside'
-                placeholder='Años'
-                classNames={{ label: 'text-neutral-400' }}
-                required
-              />
-              <Input
-                type='number'
-                name='age_months'
-              // label='Nombre de la mascota'
-                labelPlacement='outside'
-                placeholder='Meses'
-                classNames={{ label: 'text-neutral-400' }}
-                required
-              />
+            <div className='flex flex-row gap-6'>
+              <UploadPetPhoto />
+              <div className='flex flex-col gap-4 py-4'>
+                <Input
+                  type='text'
+                  name='name'
+                  label='Nombre de la mascota'
+                  labelPlacement='outside'
+                  placeholder='Ingrese el nombre de la mascota'
+                  classNames={{ label: 'text-neutral-400' }}
+                  required
+                />
+                <Select
+                  label='Tipo de mascota'
+                  name='petTypeId'
+                  labelPlacement='outside'
+                  placeholder='Seleccione el tipo de mascota'
+                  classNames={{ label: 'text-neutral-400', value: 'capitalize' }}
+                  required
+                >
+                  {petTypes?.map((petType) => (
+                    <SelectItem key={petType.id} value={petType.id} className='capitalize'>
+                      {petType.tag}
+                    </SelectItem>
+                  ))}
+                </Select>
+                <div className='flex flex-row gap-2 items-end'>
+                  <Input
+                    type='number'
+                    name='age_years'
+                    label='Edad de la mascota'
+                    labelPlacement='outside'
+                    placeholder='Años'
+                    classNames={{ label: 'text-neutral-400' }}
+                    required
+                  />
+                  <Input
+                    type='number'
+                    name='age_months'
+                    labelPlacement='outside'
+                    placeholder='Meses'
+                    classNames={{ label: 'text-neutral-400' }}
+                    required
+                  />
+                </div>
+              </div>
             </div>
+
             <Textarea
               label='Descripcion'
               name='description'
@@ -101,7 +107,7 @@ export default function ReportPage () {
                 value={date.toLocaleDateString()}
                 onValueChange={setDate.toString()}
                 placeholder='Ingrese la fecha de desaparicion'
-                classNames={{ label: 'text-neutral-400' }}
+                classNames={{ label: 'text-neutral-400', input: 'text-neutral-400' }}
                 required
                 disabled
               />
@@ -134,7 +140,7 @@ export default function ReportPage () {
             />
             <div className='flex flex-row gap-2 items-end'>
               <Input
-                type='text'
+                type='number'
                 name='reward'
                 label='Recompensa'
                 labelPlacement='outside'
