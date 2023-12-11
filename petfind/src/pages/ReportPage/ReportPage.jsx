@@ -1,13 +1,22 @@
-import { Button, Input, Popover, PopoverContent, PopoverTrigger, Select, Textarea } from '@nextui-org/react'
-import CoinBagIcon from '../components/Icons/CoinBagIcon'
-import CalendarIcon from '../components/Icons/CalendarIcon'
+import { Button, Input, Popover, PopoverContent, PopoverTrigger, Select, SelectItem, Textarea } from '@nextui-org/react'
+import CalendarIcon from './../../components/Icons/CalendarIcon'
+import CoinBagIcon from './../../components/Icons/CoinBagIcon'
 import { useState } from 'react'
 import Calendar from 'react-calendar'
-import './ReportPage/ReportPage.css'
+import './ReportPage.css'
+import PetTypesService from '../../services/PetTypesService'
+import { useQuery } from 'react-query'
 
 export default function ReportPage () {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
+
+  const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
+    retry: 2,
+    staleTime: Infinity
+  })
+
+  const petTypes = petTypesQuery.data?.data.petTypes
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -46,9 +55,35 @@ export default function ReportPage () {
               name='petTypeId'
               labelPlacement='outside'
               placeholder='Seleccione el tipo de mascota'
-              classNames={{ label: 'text-neutral-400' }}
+              classNames={{ label: 'text-neutral-400', value: 'capitalize' }}
               required
-            />
+            >
+              {petTypes?.map((petType) => (
+                <SelectItem key={petType.id} value={petType.id} className='capitalize'>
+                  {petType.tag}
+                </SelectItem>
+              ))}
+            </Select>
+            <div className='flex flex-row gap-2 items-end'>
+              <Input
+                type='number'
+                name='age_years'
+                label='Edad de la mascota'
+                labelPlacement='outside'
+                placeholder='Años'
+                classNames={{ label: 'text-neutral-400' }}
+                required
+              />
+              <Input
+                type='number'
+                name='age_months'
+              // label='Nombre de la mascota'
+                labelPlacement='outside'
+                placeholder='Meses'
+                classNames={{ label: 'text-neutral-400' }}
+                required
+              />
+            </div>
             <Textarea
               label='Descripcion'
               name='description'

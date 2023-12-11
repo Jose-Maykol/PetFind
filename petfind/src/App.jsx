@@ -8,7 +8,7 @@ import {
 } from 'react-query'
 import './index.css'
 import NavBar from './components/NavBar'
-import ReportPage from './pages/ReportPage'
+import ReportPage from './pages/ReportPage/ReportPage'
 import HomePage from './pages/Home/HomePage'
 import MyReportsPage from './pages/MyReports/MyReportsPage'
 
