@@ -7,6 +7,7 @@ import './ReportPage.css'
 import PetTypesService from '../../services/PetTypesService'
 import { useQuery } from 'react-query'
 import UploadPetPhoto from './components/UploadPetPhoto'
+import ReportMap from './components/ReportMap'
 
 export default function ReportPage () {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
@@ -89,7 +90,6 @@ export default function ReportPage () {
                 </div>
               </div>
             </div>
-
             <Textarea
               label='Descripcion'
               name='description'
@@ -98,6 +98,7 @@ export default function ReportPage () {
               classNames={{ label: 'text-neutral-400' }}
               required
             />
+            <ReportMap />
             <div className='flex flex-row gap-2 items-end'>
               <Input
                 type='text'
