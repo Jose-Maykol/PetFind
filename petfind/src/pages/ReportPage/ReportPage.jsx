@@ -8,10 +8,13 @@ import PetTypesService from '../../services/PetTypesService'
 import { useQuery } from 'react-query'
 import UploadPetPhoto from './components/UploadPetPhoto'
 import ReportMap from './components/ReportMap'
+import PetReportService from '../../services/PetReportService'
+import { useNavigate } from 'react-router-dom'
 
 export default function ReportPage () {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
+  const navigate = useNavigate()
 
   const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
     retry: 2,
@@ -20,13 +23,16 @@ export default function ReportPage () {
 
   const petTypes = petTypesQuery.data?.data.petTypes
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
       const form = new FormData(e.target)
       const data = Object.fromEntries(form.entries())
       console.log(data)
+      PetReportService.createPetReport(data).then((res) => {
+        console.log(res)
+      })
+      navigate('/')
     } catch (error) {
       console.log(error)
     }
@@ -57,7 +63,7 @@ export default function ReportPage () {
                 />
                 <Select
                   label='Tipo de mascota'
-                  name='petTypeId'
+                  name='pet_type_id'
                   labelPlacement='outside'
                   placeholder='Seleccione el tipo de mascota'
                   classNames={{ label: 'text-neutral-400', value: 'capitalize' }}
