@@ -1,18 +1,38 @@
 const Pet = require('../models/petReport.repository')
+const { uploadToCloudinary } = require('./cloudinary.controller')
 
 const createPetReport = async (req, res) => {
   try {
-    console.log(req.body)
-    const userId = req.user.id
-    const reportPetData = {
-      ...req.body,
-      user_id: userId
+    const { userId } = req.user
+    const imagePet = req.file
+
+    if (!userId) {
+      return res.status(401).json({ message: 'No se ha enviado el id del usuario' })
     }
-    const newReportPet = await Pet.create(reportPetData)
+
+    const imagePetUrl = await uploadToCloudinary(imagePet)
+
+    const petReportData = {
+      user_id: userId,
+      pet_type_id: req.body.pet_type_id,
+      report_status_id: 1,
+      name: req.body.name,
+      age_years: parseInt(req.body.age_years),
+      age_months: parseInt(req.body.age_months),
+      description: req.body.description,
+      loss_date: new Date().toISOString(),
+      photo: imagePetUrl,
+      phone: req.body.phone,
+      reward: parseFloat(req.body.reward),
+      coordinates: `(${parseFloat(req.body.lat)}, ${parseFloat(req.body.lng)})`
+    }
+
+    const newPetReport = await Pet.create(petReportData)
+    console.log(newPetReport)
     const response = {
       status: 1,
       message: 'Reporte creado con éxito',
-      data: newReportPet
+      data: newPetReport
     }
     res.status(201).json(response)
   } catch (error) {
