@@ -6,7 +6,6 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
-
 const app = express()
 const port = process.env.PORT || 8000
 const CLIENT_SECRET = process.env.CLIENT_SECRET
@@ -15,6 +14,7 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(cookieParser())
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({ secret: CLIENT_SECRET, resave: true, saveUninitialized: true }))
 app.use(passport.initialize())
