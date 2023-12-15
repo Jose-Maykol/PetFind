@@ -45,8 +45,8 @@ class Pet {
         let params = 1
 
         if (filters.name) {
-          filterValues.push(filters.name)
-          filterConditions.push(` name = $${params}`)
+          filterValues.push(`%${filters.name}%`)
+          filterConditions.push(` name LIKE $${params}`)
           params++
         }
 
@@ -141,8 +141,8 @@ class Pet {
         let params = 1
 
         if (filters.name) {
-          filterValues.push(filters.name)
-          filterConditions.push(` name = $${params}`)
+          filterValues.push(`%${filters.name}%`)
+          filterConditions.push(` name LIKE $${params}`)
           params++
         }
 

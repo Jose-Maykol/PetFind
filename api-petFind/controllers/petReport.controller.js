@@ -49,7 +49,6 @@ const listPetReports = async (req, res) => {
 
     if (req.query.name) {
       filters.name = req.query.name
-      console.log(filters.name)
     }
 
     if (req.query.loss_date) {
