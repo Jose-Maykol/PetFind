@@ -44,7 +44,7 @@ export default function ReportPage () {
   }
 
   return (
-    <div className='w-screen flex flex-col items-center justify-center pt-6'>
+    <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
       <div className='w-[700px]'>
         <h2 className='font-bold text-lg'>Reportar mascota perdida</h2>
         <form onSubmit={handleSubmit}>

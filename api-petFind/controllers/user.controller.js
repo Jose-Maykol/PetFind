@@ -3,8 +3,6 @@ const User = require('../models/user.repository')
 const getUserInfo = async (req, res, next) => {
   const { userId } = req.user
 
-  console.log(userId)
-
   if (!userId) {
     res.status(401).json({
       status: 0,
