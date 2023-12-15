@@ -56,6 +56,12 @@ class Pet {
           params++
         }
 
+        if (filters.pet_type_id) {
+          filterValues.push(filters.pet_type_id)
+          filterConditions.push(` pet_type_id = $${params}`)
+          params++
+        }
+
         queryString += filterConditions.join(' AND ')
       }
 
@@ -149,6 +155,12 @@ class Pet {
         if (filters.loss_date) {
           filterValues.push(filters.loss_date)
           filterConditions.push(` loss_date = $${params}`)
+          params++
+        }
+
+        if (filters.pet_type_id) {
+          filterValues.push(filters.pet_type_id)
+          filterConditions.push(` pet_type_id = $${params}`)
           params++
         }
 

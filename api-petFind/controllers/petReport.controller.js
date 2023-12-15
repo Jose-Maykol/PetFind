@@ -55,6 +55,10 @@ const listPetReports = async (req, res) => {
       filters.loss_date = req.query.loss_date
     }
 
+    if (req.query.pet_type_id) {
+      filters.pet_type_id = req.query.pet_type_id
+    }
+
     const pets = await Pet.list(page, limit, filters)
     const totalPets = await Pet.getTotal(filters)
 
