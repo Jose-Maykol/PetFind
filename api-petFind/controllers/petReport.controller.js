@@ -45,8 +45,19 @@ const listPetReports = async (req, res) => {
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 12
 
-    const pets = await Pet.list(page, limit)
-    const totalPets = await Pet.getTotal()
+    const filters = {}
+
+    if (req.query.name) {
+      filters.name = req.query.name
+      console.log(filters.name)
+    }
+
+    if (req.query.loss_date) {
+      filters.loss_date = req.query.loss_date
+    }
+
+    const pets = await Pet.list(page, limit, filters)
+    const totalPets = await Pet.getTotal(filters)
 
     const response = {
       status: 1,

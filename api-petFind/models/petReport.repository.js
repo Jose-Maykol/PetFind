@@ -33,13 +33,39 @@ class Pet {
     }
   }
 
-  async list (page = 1, limit = 12) {
+  async list (page = 1, limit = 12, filters = {}) {
     try {
       const offset = (page - 1) * limit
-      const query = {
-        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets OFFSET $1 LIMIT $2',
-        values: [offset, limit]
+      let queryString = 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets'
+      const filterValues = []
+      const filterConditions = []
+
+      if (Object.keys(filters).length > 0) {
+        queryString += ' WHERE'
+        let params = 1
+
+        if (filters.name) {
+          filterValues.push(filters.name)
+          filterConditions.push(` name = $${params}`)
+          params++
+        }
+
+        if (filters.loss_date) {
+          filterValues.push(filters.loss_date)
+          filterConditions.push(` loss_date = $${params}`)
+          params++
+        }
+
+        queryString += filterConditions.join(' AND ')
       }
+
+      queryString += ` OFFSET $${filterValues.length + 1} LIMIT $${filterValues.length + 2}`
+
+      const query = {
+        text: queryString,
+        values: [...filterValues, offset, limit]
+      }
+
       const result = await this.pool.query(query)
       return result.rows
     } catch (error) {
@@ -104,10 +130,34 @@ class Pet {
     }
   }
 
-  async getTotal () {
+  async getTotal (filters = {}) {
     try {
+      let queryString = 'SELECT COUNT(*) FROM pets'
+      const filterValues = []
+      const filterConditions = []
+
+      if (Object.keys(filters).length > 0) {
+        queryString += ' WHERE'
+        let params = 1
+
+        if (filters.name) {
+          filterValues.push(filters.name)
+          filterConditions.push(` name = $${params}`)
+          params++
+        }
+
+        if (filters.loss_date) {
+          filterValues.push(filters.loss_date)
+          filterConditions.push(` loss_date = $${params}`)
+          params++
+        }
+
+        queryString += filterConditions.join(' AND ')
+      }
+
       const query = {
-        text: 'SELECT COUNT(*) FROM pets'
+        text: queryString,
+        values: [...filterValues]
       }
       const result = await this.pool.query(query)
       return result.rows[0].count
