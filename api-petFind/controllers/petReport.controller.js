@@ -139,7 +139,9 @@ const updatePetReport = async (req, res) => {
 
 const updatePetReportStatus = async (req, res) => {
   try {
-    const pet = await Pet.updateStatus(req.body)
+    const petId = req.params.id
+    const statusId = req.body.status_id
+    const pet = await Pet.updateStatus(petId, statusId)
     const response = {
       status: 1,
       data: {
