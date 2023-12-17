@@ -178,6 +178,33 @@ class Pet {
       throw error
     }
   }
+
+  async deleteOwn (id, userId) {
+    try {
+      const query = {
+        text: 'DELETE FROM pets WHERE id = $1 AND user_id = $2',
+        values: [id, userId]
+      }
+      await this.pool.query(query)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async updateStatus (id, statusId) {
+    try {
+      const query = {
+        text: 'UPDATE pets SET report_status_id = $1 WHERE id = $2 RETURNING *',
+        values: [statusId, id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 }
 
 module.exports = new Pet()

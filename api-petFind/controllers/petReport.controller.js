@@ -137,11 +137,42 @@ const updatePetReport = async (req, res) => {
   }
 }
 
+const updatePetReportStatus = async (req, res) => {
+  try {
+    const pet = await Pet.updateStatus(req.body)
+    const response = {
+      status: 1,
+      data: {
+        pet
+      }
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+const deleteOwnPetReport = async (req, res) => {
+  try {
+    const userId = req.user.id
+    await Pet.deleteOwn(req.params.id, userId)
+    const response = {
+      status: 1,
+      message: 'Reporte eliminado con éxito'
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 module.exports = {
   createPetReport,
   listPetReports,
   listOwnPetReports,
   getPetReport,
   getOwnPetReport,
-  updatePetReport
+  updatePetReport,
+  updatePetReportStatus,
+  deleteOwnPetReport
 }
