@@ -89,6 +89,15 @@ const listOwnPetReports = async (req, res) => {
 const getPetReport = async (req, res) => {
   try {
     const petReport = await Pet.get(req.params.id)
+
+    if (!petReport) {
+      const response = {
+        status: 0,
+        message: 'No se encontró el reporte'
+      }
+      return res.status(404).json(response)
+    }
+
     const response = {
       status: 1,
       data: {
@@ -105,6 +114,15 @@ const getOwnPetReport = async (req, res) => {
   try {
     const userId = req.user.id
     const petReport = await Pet.getOwn(req.params.id, userId)
+
+    if (!petReport) {
+      const response = {
+        status: 0,
+        message: 'No se encontró el reporte'
+      }
+      return res.status(404).json(response)
+    }
+
     const response = {
       status: 1,
       data: {
@@ -169,12 +187,19 @@ const updatePetReportStatus = async (req, res) => {
   try {
     const petId = req.params.id
     const statusId = req.body.status_id
-    const pet = await Pet.updateStatus(petId, statusId)
+    const petReport = await Pet.updateStatus(petId, statusId)
+
+    if (!petReport) {
+      const response = {
+        status: 0,
+        message: 'No se encontró el reporte'
+      }
+      return res.status(404).json(response)
+    }
+
     const response = {
       status: 1,
-      data: {
-        pet
-      }
+      data: petReport
     }
     res.status(200).json(response)
   } catch (error) {
@@ -185,6 +210,16 @@ const updatePetReportStatus = async (req, res) => {
 const deleteOwnPetReport = async (req, res) => {
   try {
     const userId = req.user.id
+    const petReport = await Pet.getOwn(req.params.id, userId)
+
+    if (!petReport) {
+      const response = {
+        status: 0,
+        message: 'No se encontró el reporte'
+      }
+      return res.status(404).json(response)
+    }
+
     await Pet.deleteOwn(req.params.id, userId)
     const response = {
       status: 1,
