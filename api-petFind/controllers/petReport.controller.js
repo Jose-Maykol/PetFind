@@ -1,15 +1,10 @@
 const Pet = require('../models/petReport.repository')
-const { uploadToCloudinary } = require('./cloudinary.controller')
+const { uploadToCloudinary, deleteFromCloudinary } = require('./cloudinary.controller')
 
 const createPetReport = async (req, res) => {
   try {
     const { userId } = req.user
     const imagePet = req.file
-
-    if (!userId) {
-      return res.status(401).json({ message: 'No se ha enviado el id del usuario' })
-    }
-
     const imagePetUrl = await uploadToCloudinary(imagePet)
 
     const petReportData = {
@@ -124,12 +119,45 @@ const getOwnPetReport = async (req, res) => {
 
 const updatePetReport = async (req, res) => {
   try {
-    const pet = await Pet.update(req.body)
+    const { userId } = req.user
+    const petId = req.params.id
+    const imagePet = req.file
+    const imagePetUrl = await uploadToCloudinary(imagePet)
+
+    const petReport = await Pet.getOwn(petId, userId)
+
+    if (!petReport) {
+      const response = {
+        status: 0,
+        message: 'No se encontró el reporte'
+      }
+      return res.status(404).json(response)
+    }
+
+    const oldImagePetUrl = petReport.photo
+    await deleteFromCloudinary(oldImagePetUrl)
+
+    const petReportData = {
+      id: req.params.id,
+      user_id: userId,
+      pet_type_id: req.body.pet_type_id,
+      report_status_id: 1,
+      name: req.body.name,
+      age_years: parseInt(req.body.age_years),
+      age_months: parseInt(req.body.age_months),
+      description: req.body.description,
+      loss_date: new Date().toISOString(),
+      photo: imagePetUrl,
+      phone: req.body.phone,
+      reward: parseFloat(req.body.reward),
+      coordinates: `(${parseFloat(req.body.lat)}, ${parseFloat(req.body.lng)})`
+    }
+
+    const updatedPetReport = await Pet.update(petReportData)
     const response = {
       status: 1,
-      data: {
-        pet
-      }
+      message: 'Reporte actualizado con éxito',
+      data: updatedPetReport
     }
     res.status(200).json(response)
   } catch (error) {
