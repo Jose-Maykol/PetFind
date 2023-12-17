@@ -33,11 +33,11 @@ class Report {
     }
   }
 
-  async getOwn (userId) {
+  async getOwn (userId, reportId) {
     try {
       const query = {
-        text: 'SELECT * FROM reports WHERE user_id = $1',
-        values: [userId]
+        text: 'SELECT * FROM reports WHERE user_id = $1 AND id = $2',
+        values: [userId, reportId]
       }
       const result = await this.pool.query(query)
       return result.rows
@@ -55,6 +55,19 @@ class Report {
       }
       const result = await this.pool.query(query)
       return result.rows[0]
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async deleteOwn (reportId, userId) {
+    try {
+      const query = {
+        text: 'DELETE FROM reports WHERE id = $1 AND user_id = $2',
+        values: [reportId, userId]
+      }
+      await this.pool.query(query)
     } catch (error) {
       console.log(error)
       throw error

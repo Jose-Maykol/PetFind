@@ -3,7 +3,9 @@ const ReportRepository = require('../repositories/report.repository')
 const createReport = async (req, res) => {
   try {
     const { userId } = req.user
+    const petId = req.params.pet_id
     const report = req.body
+    report.pet_id = petId
     report.user_id = userId
     const reportCreated = await ReportRepository.create(report)
     const response = {
@@ -62,7 +64,9 @@ const getOwnReport = async (req, res) => {
 const updateReport = async (req, res) => {
   try {
     const { userId } = req.user
+    const petId = req.params.pet_id
     const report = req.body
+    report.pet_id = petId
     report.user_id = userId
     const reportUpdated = await ReportRepository.update(report)
     const response = {
@@ -77,9 +81,24 @@ const updateReport = async (req, res) => {
   }
 }
 
+const deleteOwnReport = async (req, res) => {
+  try {
+    const { userId } = req.user
+    await ReportRepository.delete(userId, req.params.id)
+    const response = {
+      status: 1,
+      message: 'Reporte eliminado'
+    }
+    res.status(200).json(response)
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
 module.exports = {
   createReport,
   listOwnReports,
   getOwnReport,
-  updateReport
+  updateReport,
+  deleteOwnReport
 }
