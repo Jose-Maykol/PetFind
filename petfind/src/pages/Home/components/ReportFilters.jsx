@@ -5,11 +5,14 @@ import { useQuery } from 'react-query'
 import PetTypesService from '../../../services/PetTypesService'
 import Calendar from 'react-calendar'
 import { useState } from 'react'
+import { PropTypes } from 'prop-types'
 
-export default function ReportFilters () {
+export default function ReportFilters ({ onSearchChange }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   // const [dates, setDates] = useState([new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), new Date()])
   const [dates, setDates] = useState([null, null]) // [startDate, endDate
+
+  const [search, setSearch] = useState('')
 
   const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
     retry: 2,
@@ -17,6 +20,10 @@ export default function ReportFilters () {
   })
 
   const petTypes = petTypesQuery.data?.data.petTypes
+
+  const handleSearch = () => {
+    onSearchChange(search)
+  }
 
   const onChangeDate = (dates) => {
     setDates(dates)
@@ -28,11 +35,14 @@ export default function ReportFilters () {
         <Input
           label='Buscar por nombre'
           labelPlacement='outside'
+          value={search}
+          onValueChange={(value) => setSearch(value)}
+          onClear={() => onSearchChange('')}
           isClearable
           radius='sm'
           placeholder='Buscar'
         />
-        <Button isIconOnly color='primary' aria-label='search'>
+        <Button isIconOnly color='primary' aria-label='search' onClick={handleSearch}>
           <SearchIcon width={24} height={24} fill='fill-white' />
         </Button>
       </div>
@@ -97,4 +107,8 @@ export default function ReportFilters () {
       </div>
     </div>
   )
+}
+
+ReportFilters.propTypes = {
+  onSearchChange: PropTypes.func
 }
