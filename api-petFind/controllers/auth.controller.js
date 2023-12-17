@@ -42,15 +42,16 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const jwtToken = createToken({ userId: userData.id })
-      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000 })
-      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000 })
+      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
+      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
     }
     res.redirect('http://localhost:5173')
   })(req, res, next)
 }
 
 const logout = (req, res) => {
-  req.logout()
+  res.clearCookie('accessToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
+  res.clearCookie('jwtToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
   res.redirect('http://localhost:5173')
 }
 
