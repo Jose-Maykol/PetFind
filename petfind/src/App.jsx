@@ -11,6 +11,7 @@ import NavBar from './components/NavBar'
 import ReportPage from './pages/ReportPage/ReportPage'
 import HomePage from './pages/Home/HomePage'
 import MyReportsPage from './pages/MyReports/MyReportsPage'
+import LostPetReportPage from './pages/LostPetReport/LostPetReportPage'
 
 const queryClient = new QueryClient()
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/my-reports',
         element: <MyReportsPage />
+      },
+      {
+        path: '/Lost-pet-report/:id',
+        element: <LostPetReportPage />
       }
     ]
   }

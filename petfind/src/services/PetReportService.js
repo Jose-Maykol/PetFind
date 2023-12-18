@@ -11,6 +11,15 @@ class PetReportService {
     }
   }
 
+  async getPetReport (id) {
+    try {
+      const response = await api.get(`/pet-reports/${id}`)
+      return response.data
+    } catch (error) {
+      return error.response.data
+    }
+  }
+
   async createPetReport (data) {
     try {
       const jwtToken = Cookies.get('jwtToken')

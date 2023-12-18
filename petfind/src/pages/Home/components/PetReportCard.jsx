@@ -4,10 +4,11 @@ import CalendarIcon from '../../../components/Icons/CalendarIcon'
 import PhoneIcon from '../../../components/Icons/PhoneIcon'
 import formatDate from '../../../utils/formatDate'
 import { PropTypes } from 'prop-types'
+import { Link } from 'react-router-dom'
 
 export default function PetReportCard ({ petReport }) {
   return (
-    <div>
+    <Link to={`/lost-pet-report/${petReport.id}`}>
       <div className='w-[200px] h-[260px] rounded-md shadow-lg'>
         <img
           className='w-full h-[150px] object-cover rounded-md'
@@ -39,7 +40,7 @@ export default function PetReportCard ({ petReport }) {
 
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 
