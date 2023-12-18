@@ -9,6 +9,15 @@ class UserService {
       return error.response
     }
   }
+
+  async logOut () {
+    try {
+      const response = await api.post('/auth/logout', {}, { withCredentials: true })
+      return response.data
+    } catch (error) {
+      return error.response
+    }
+  }
 }
 
 export default new UserService()

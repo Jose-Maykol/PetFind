@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 import { useQuery } from 'react-query'
 import UserService from '../services/UserService'
 import useAuthStore from '../store/useAuthStore'
+import LogOutIcon from './Icons/LogOutIcon'
 
 export default function NavBar () {
   const [isLogged, setIsLogged] = useState(false)
@@ -14,6 +15,12 @@ export default function NavBar () {
 
   const handleLoginWithGoogle = () => {
     window.location.href = 'http://localhost:8000/auth/google'
+  }
+
+  const handleLogout = () => {
+    UserService.logOut().then((res) => {
+      setIsLogged(false)
+    })
   }
 
   useEffect(() => {
@@ -68,11 +75,19 @@ export default function NavBar () {
           <NavbarItem>
             {(isLogged)
               ? (
-                <User
-                  name={userInfo?.name}
-                  description={userInfo?.email}
-                  avatarProps={{ src: userInfo?.profilePicture }}
-                />
+                <div className='flex flex-row items-center gap-2 justify-center'>
+                  <User
+                    name={userInfo?.name}
+                    description={userInfo?.email}
+                    avatarProps={{ src: userInfo?.profilePicture }}
+                  />
+                  <Button
+                    isIconOnly
+                    variant='light'
+                    startContent={<LogOutIcon width={24} height={24} fill='fill-neutral-500' />}
+                    onClick={handleLogout}
+                  />
+                </div>
                 )
               : (
                 <Button

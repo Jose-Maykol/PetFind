@@ -52,7 +52,7 @@ const handleGoogleCallback = async (req, res, next) => {
 const logout = (req, res) => {
   res.clearCookie('accessToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
   res.clearCookie('jwtToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
-  res.redirect('http://localhost:5173')
+  res.status(200).json({ message: 'Se ha cerrado la sesión' })
 }
 
 module.exports = {
