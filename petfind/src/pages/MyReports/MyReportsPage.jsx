@@ -3,6 +3,7 @@ import { useState } from 'react'
 import PetReportService from '../../services/PetReportService'
 import { useQuery } from 'react-query'
 import PetReportEditor from './components/PetReportEditor'
+import ReportSightingMap from './components/ReportSightingMap'
 
 export default function MyReportsPage () {
   const [petReports, setPetReports] = useState([])
@@ -10,6 +11,7 @@ export default function MyReportsPage () {
 
   useQuery(['report'], PetReportService.getOwnPetReports, {
     retry: 2,
+    staleTime: Infinity,
     onSuccess: (res) => {
       setPetReports(res.data.petReports)
       setIdPetReport(res.data.petReports[0].id)
@@ -38,9 +40,7 @@ export default function MyReportsPage () {
               </SelectItem>
             ))}
           </Select>
-          <div>
-            mapa
-          </div>
+          <ReportSightingMap idPetReport={idPetReport} />
           {/* <PetReportEditor idPetReport={idPetReport} /> */}
         </div>
       </div>

@@ -53,6 +53,15 @@ class PetReportService {
       return error.response.data
     }
   }
+
+  async getReportsSightings (id) {
+    try {
+      const response = await api.get(`/pet-reports/own/${id}/reports`)
+      return response.data
+    } catch (error) {
+      return error.response.data
+    }
+  }
 }
 
 export default new PetReportService()
