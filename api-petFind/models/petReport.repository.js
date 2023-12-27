@@ -205,6 +205,20 @@ class Pet {
       throw error
     }
   }
+
+  async getReportsSightings (id) {
+    try {
+      const query = {
+        text: 'SELECT pets.*, users.name AS user_name, users.surname AS user_surname, users.profile_picture AS user_profile_picture FROM pets INNER JOIN users ON pets.user_id = users.id WHERE pets.report_status_id = 1 AND pets.pet_type_id = (SELECT pet_type_id FROM pets WHERE id = $1)',
+        values: [id]
+      }
+      const result = await this.pool.query(query)
+      return result.rows
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
 }
 
 module.exports = new Pet()
