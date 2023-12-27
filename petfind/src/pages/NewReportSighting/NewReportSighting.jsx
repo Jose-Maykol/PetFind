@@ -3,10 +3,16 @@ import Calendar from 'react-calendar'
 import CalendarIcon from '../../components/Icons/CalendarIcon'
 import { useState } from 'react'
 import ReportMap from '../ReportPage/components/ReportMap'
+import ReportService from '../../services/ReportService'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export default function NewReportSighting () {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
+  const navigate = useNavigate()
+
+  const params = useParams()
+  const { id } = params
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -14,6 +20,10 @@ export default function NewReportSighting () {
       const form = new FormData(e.target)
       const data = Object.fromEntries(form.entries())
       console.log(data)
+      ReportService.createReport(data, id).then((res) => {
+        console.log(res)
+      })
+      navigate('/')
     } catch (error) {
       console.log(error)
     }
@@ -49,7 +59,7 @@ export default function NewReportSighting () {
                 placeholder='Seleccione una fecha'
                 classNames={{ label: 'text-neutral-400', input: 'text-neutral-400' }}
                 required
-                // disabled
+                readOnly
               />
               <Popover placement='left' isOpen={isOpenCalendar} onOpenChange={(open) => setIsOpenCalendar(open)}>
                 <PopoverTrigger>

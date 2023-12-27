@@ -1,6 +1,5 @@
 import { Button, Input, Popover, PopoverContent, PopoverTrigger, Select, SelectItem, Textarea } from '@nextui-org/react'
 import CalendarIcon from './../../components/Icons/CalendarIcon'
-import CoinBagIcon from './../../components/Icons/CoinBagIcon'
 import { useState } from 'react'
 import Calendar from 'react-calendar'
 import './ReportPage.css'
@@ -116,7 +115,7 @@ export default function ReportPage () {
                 placeholder='Ingrese la fecha de desaparicion'
                 classNames={{ label: 'text-neutral-400', input: 'text-neutral-400' }}
                 required
-                disabled
+                readOnly
               />
               <Popover placement='left' isOpen={isOpenCalendar} onOpenChange={(open) => setIsOpenCalendar(open)}>
                 <PopoverTrigger>
@@ -145,23 +144,16 @@ export default function ReportPage () {
               classNames={{ label: 'text-neutral-400' }}
               required
             />
-            <div className='flex flex-row gap-2 items-end'>
-              <Input
-                type='number'
-                name='reward'
-                label='Recompensa'
-                labelPlacement='outside'
-                placeholder='Ingrese la recompensa'
-                classNames={{ label: 'text-neutral-400' }}
-                className='flex-1'
-                required
-              />
-              <Button
-                color='primary'
-                isIconOnly
-                startContent={<CoinBagIcon width={24} height={24} fill='fill-white' />}
-              />
-            </div>
+            <Input
+              type='number'
+              name='reward'
+              label='Recompensa'
+              labelPlacement='outside'
+              placeholder='Ingrese la recompensa'
+              classNames={{ label: 'text-neutral-400' }}
+              className='flex-1'
+              required
+            />
           </div>
           <Button
             type='submit'
