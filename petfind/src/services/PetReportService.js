@@ -20,6 +20,15 @@ class PetReportService {
     }
   }
 
+  async getOwnPetReports (params) {
+    try {
+      const response = await api.get('/pet-reports/own', { params })
+      return response.data
+    } catch (error) {
+      return error.response.data
+    }
+  }
+
   async createPetReport (data) {
     try {
       const jwtToken = Cookies.get('jwtToken')
