@@ -1,4 +1,4 @@
-import { Button } from '@nextui-org/react'
+import { Button, Tooltip } from '@nextui-org/react'
 import MapPointIcon from '../../../components/Icons/MapPointIcon'
 import CalendarIcon from '../../../components/Icons/CalendarIcon'
 import PhoneIcon from '../../../components/Icons/PhoneIcon'
@@ -26,7 +26,14 @@ export default function PetReportCard ({ petReport }) {
               aria-label='map-point'
               className='w-[30px] h-[30px] max-w-[30px] min-w-unit-1 rounded-md p-0'
             >
-              <MapPointIcon width={20} height={20} fill='fill-white' />
+              <Tooltip placement='top' content='Reportar'>
+                <Link
+                  to={`/lost-pet-report/${petReport.id}/new-sighting`}
+                  className='rounded-md px-4 py-2 font-bold text-white text-sm bg-[#F87272] hover:bg-[#F87272]'
+                >
+                  <MapPointIcon width={20} height={20} fill='fill-white' />
+                </Link>
+              </Tooltip>
             </Button>
           </div>
           <div className='flex flex-row gap-2 max-h-[20px]'>
@@ -37,7 +44,6 @@ export default function PetReportCard ({ petReport }) {
             <PhoneIcon width={20} height={20} fill='fill-neutral-400' />
             <p className='text-sm text-gray-400'>{petReport.phone}</p>
           </div>
-
         </div>
       </div>
     </Link>

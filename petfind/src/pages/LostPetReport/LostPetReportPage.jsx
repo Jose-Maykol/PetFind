@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import PetReportService from '../../services/PetReportService'
 import formatDate from '../../utils/formatDate'
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api'
@@ -24,7 +24,15 @@ export default function LostPetReportPage () {
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-2'>
       <div className='w-[700px]'>
-        <h2 className='font-bold text-lg'>{petReport?.name}</h2>
+        <div className='flex flex-row justify-between'>
+          <h2 className='font-bold text-lg'>{petReport?.name}</h2>
+          <Link
+            to={`/lost-pet-report/${petReport?.id}/new-sighting`}
+            className='rounded-md px-4 py-2 font-bold text-white text-sm bg-[#F87272] hover:bg-[#F87272]'
+          >
+            Reportar avistamiento
+          </Link>
+        </div>
         <div className='flex flex-col gap-2 text-neutral-400'>
           <div className='flex flex-row gap-4 py-4'>
             <img
