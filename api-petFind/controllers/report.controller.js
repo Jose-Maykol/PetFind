@@ -1,13 +1,22 @@
-const ReportRepository = require('../repositories/report.repository')
+const ReportRepository = require('../models/report.repository')
 
 const createReport = async (req, res) => {
   try {
     const { userId } = req.user
     const petId = req.params.pet_id
-    const report = req.body
-    report.pet_id = petId
-    report.user_id = userId
-    const reportCreated = await ReportRepository.create(report)
+    const date = req.body.date
+    const partsDate = date.split('/')
+
+    console.log(partsDate)
+
+    const petReport = {
+      user_id: userId,
+      pet_id: petId,
+      comment: req.body.comment,
+      datetime: new Date(parseInt(partsDate[2]), parseInt(partsDate[1]) - 1, parseInt(partsDate[0])),
+      coordinates: `(${parseFloat(req.body.lat)}, ${parseFloat(req.body.lng)})`
+    }
+    const reportCreated = await ReportRepository.create(petReport)
     const response = {
       status: 1,
       data: {

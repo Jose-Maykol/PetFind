@@ -8,8 +8,8 @@ class Report {
   async create (report) {
     try {
       const query = {
-        text: 'INSERT INTO reports (user_id, pet_id, datetime, commnent, coordinates) VALUES ($1, $2, $3, $4, $5) RETURNING id',
-        values: [report.user_id, report.pet_id, report.datetime, report.commnent, report.coordinates]
+        text: 'INSERT INTO reports (user_id, pet_id, datetime, comment, coordinates) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+        values: [report.user_id, report.pet_id, report.datetime, report.comment, report.coordinates]
       }
       const result = await this.pool.query(query)
       return result.rows[0]
@@ -50,8 +50,8 @@ class Report {
   async update (report) {
     try {
       const query = {
-        text: 'UPDATE reports SET user_id = $1, pet_id = $2, datetime = $3, commnent = $4, coordinates = $5 WHERE id = $6 RETURNING *',
-        values: [report.user_id, report.pet_id, report.datetime, report.commnent, report.coordinates, report.id]
+        text: 'UPDATE reports SET user_id = $1, pet_id = $2, datetime = $3, comment = $4, coordinates = $5 WHERE id = $6 RETURNING *',
+        values: [report.user_id, report.pet_id, report.datetime, report.comment, report.coordinates, report.id]
       }
       const result = await this.pool.query(query)
       return result.rows[0]

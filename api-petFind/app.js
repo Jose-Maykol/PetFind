@@ -46,6 +46,10 @@ app.use('/pet-types', petTypeRoutes)
 const petReportRoutes = require('./routes/petReport.routes')
 app.use('/pet-reports', petReportRoutes)
 
+// Rutas de reportes
+const reportRoutes = require('./routes/report.routes')
+app.use('/reports', reportRoutes)
+
 app.get('*', (req, res) => {
   res.send('404| Page not found')
 })
