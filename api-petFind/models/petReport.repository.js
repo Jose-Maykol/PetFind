@@ -209,7 +209,24 @@ class Pet {
   async getReportsSightings (id) {
     try {
       const query = {
-        text: 'SELECT pets.*, users.name AS user_name, users.surname AS user_surname, users.profile_picture AS user_profile_picture FROM pets INNER JOIN users ON pets.user_id = users.id WHERE pets.report_status_id = 1 AND pets.pet_type_id = (SELECT pet_type_id FROM pets WHERE id = $1)',
+        text: `
+        SELECT 
+          pets.*, 
+          users.name AS user_name, 
+          users.surname AS user_surname, 
+          users.profile_picture AS user_profile_picture,
+          reports.comment AS report_comment,
+          reports.datetime AS report_datetime,
+          reports.coordinates AS report_coordinates
+        FROM 
+          pets 
+        INNER JOIN 
+          users ON pets.user_id = users.id 
+        INNER JOIN 
+          reports ON pets.id = reports.pet_id
+        WHERE 
+          reports.pet_id = $1
+        `,
         values: [id]
       }
       const result = await this.pool.query(query)
