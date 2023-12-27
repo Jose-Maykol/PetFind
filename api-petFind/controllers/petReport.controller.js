@@ -72,7 +72,7 @@ const listPetReports = async (req, res) => {
 
 const listOwnPetReports = async (req, res) => {
   try {
-    const userId = req.user.id
+    const { userId } = req.user
     const pets = await Pet.listOwn(userId)
     const response = {
       status: 1,
@@ -112,7 +112,7 @@ const getPetReport = async (req, res) => {
 
 const getOwnPetReport = async (req, res) => {
   try {
-    const userId = req.user.id
+    const { userId } = req.user
     const petReport = await Pet.getOwn(req.params.id, userId)
 
     if (!petReport) {
@@ -209,7 +209,7 @@ const updatePetReportStatus = async (req, res) => {
 
 const deleteOwnPetReport = async (req, res) => {
   try {
-    const userId = req.user.id
+    const { userId } = req.user
     const petReport = await Pet.getOwn(req.params.id, userId)
 
     if (!petReport) {
