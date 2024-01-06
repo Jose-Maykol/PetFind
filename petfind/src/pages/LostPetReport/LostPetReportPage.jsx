@@ -1,11 +1,13 @@
 import { useQuery } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams } from 'react-router-dom'
 import PetReportService from '../../services/PetReportService'
 import formatDate from '../../utils/formatDate'
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api'
 import { GOOGLE_MAPS_API_KEY } from '../../config/config'
+import useAuthStore from '../../store/useAuthStore'
 
 export default function LostPetReportPage () {
+  const { isLoged } = useAuthStore()
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: GOOGLE_MAPS_API_KEY
@@ -20,6 +22,12 @@ export default function LostPetReportPage () {
   })
 
   const petReport = queryPetReport.data?.data.petReport
+
+  if (isLoged === false) {
+    return (
+      <Navigate to='/' />
+    )
+  }
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-2'>

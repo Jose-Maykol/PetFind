@@ -1,12 +1,14 @@
-import { Button, Input, Popover, PopoverContent, PopoverTrigger, Textarea } from '@nextui-org/react'
+import { Button, Input, Popover, PopoverContent, PopoverTrigger, Textarea, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from '@nextui-org/react'
 import Calendar from 'react-calendar'
 import CalendarIcon from '../../components/Icons/CalendarIcon'
 import { useState } from 'react'
 import ReportMap from '../ReportPage/components/ReportMap'
 import ReportService from '../../services/ReportService'
 import { useNavigate, useParams } from 'react-router-dom'
+import useAuthStore from './../../store/useAuthStore'
 
 export default function NewReportSighting () {
+  const { isLoged } = useAuthStore()
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
   const navigate = useNavigate()
@@ -36,6 +38,27 @@ export default function NewReportSighting () {
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
+      {isLoged === false && (
+        <Modal isOpen backdrop='blur' onClose={() => navigate('/')}>
+          <ModalContent>
+            <ModalHeader className='flex justify-center'> ¡Debes iniciar sesion! </ModalHeader>
+            <ModalBody>
+              <p>
+                Para reportar una mascota perdida debes iniciar sesion
+              </p>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color='primary'
+                onClick={() => { window.location.href = 'http://localhost:8000/auth/google' }}
+                className='w-full'
+              >
+                Iniciar sesion
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
       <div className='w-[700px]'>
         <h2 className='font-bold text-lg'>Reportar avistamiento</h2>
         <form onSubmit={handleSubmit}>

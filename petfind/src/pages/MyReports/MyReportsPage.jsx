@@ -2,10 +2,13 @@ import { Select, SelectItem } from '@nextui-org/react'
 import { useState } from 'react'
 import PetReportService from '../../services/PetReportService'
 import { useQuery } from 'react-query'
-import PetReportEditor from './components/PetReportEditor'
+// import PetReportEditor from './components/PetReportEditor'
 import ReportSightingMap from './components/ReportSightingMap'
+import useAuthStore from '../../store/useAuthStore'
+import { Navigate } from 'react-router-dom'
 
 export default function MyReportsPage () {
+  const { isLoged } = useAuthStore()
   const [petReports, setPetReports] = useState([])
   const [idPetReport, setIdPetReport] = useState(null)
 
@@ -20,6 +23,12 @@ export default function MyReportsPage () {
 
   const handleSelectionChange = (value) => {
     setIdPetReport(value.values().next().value)
+  }
+
+  if (isLoged === false) {
+    return (
+      <Navigate to='/' />
+    )
   }
 
   return (
