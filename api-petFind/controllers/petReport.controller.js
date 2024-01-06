@@ -46,8 +46,9 @@ const listPetReports = async (req, res) => {
       filters.name = req.query.name
     }
 
-    if (req.query.loss_date) {
-      filters.loss_date = req.query.loss_date
+    if (req.query.loss_date_start && req.query.loss_date_end) {
+      filters.loss_date_start = req.query.loss_date_start
+      filters.loss_date_end = req.query.loss_date_end
     }
 
     if (req.query.pet_type_id) {

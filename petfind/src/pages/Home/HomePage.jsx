@@ -9,7 +9,8 @@ export default function HomePage () {
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const query = useQuery(['report', page, search], () => PetReportService.getPetReports({ page, name: search }), {
-    retry: 2
+    retry: 2,
+    staleTime: Infinity
   })
 
   const petReports = query.data?.data.petReports

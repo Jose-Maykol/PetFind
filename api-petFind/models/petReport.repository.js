@@ -35,6 +35,7 @@ class Pet {
 
   async list (page = 1, limit = 12, filters = {}) {
     try {
+      console.log(filters)
       const offset = (page - 1) * limit
       let queryString = 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets'
       const filterValues = []
@@ -46,14 +47,15 @@ class Pet {
 
         if (filters.name) {
           filterValues.push(`%${filters.name}%`)
-          filterConditions.push(` name LIKE $${params}`)
+          filterConditions.push(` name ILIKE $${params}`)
           params++
         }
 
-        if (filters.loss_date) {
-          filterValues.push(filters.loss_date)
-          filterConditions.push(` loss_date = $${params}`)
-          params++
+        if (filters.loss_date_start && filters.loss_date_end) {
+          filterValues.push(filters.loss_date_start)
+          filterValues.push(filters.loss_date_end)
+          filterConditions.push(` loss_date >= $${params} AND loss_date <= $${params + 1}`)
+          params += 2
         }
 
         if (filters.pet_type_id) {
@@ -66,6 +68,9 @@ class Pet {
       }
 
       queryString += ` OFFSET $${filterValues.length + 1} LIMIT $${filterValues.length + 2}`
+
+      console.log(queryString)
+      console.log(filterValues)
 
       const query = {
         text: queryString,
@@ -152,9 +157,10 @@ class Pet {
           params++
         }
 
-        if (filters.loss_date) {
-          filterValues.push(filters.loss_date)
-          filterConditions.push(` loss_date = $${params}`)
+        if (filters.loss_date_start && filters.loss_date_end) {
+          filterValues.push(filters.loss_date_start)
+          filterValues.push(filters.loss_date_end)
+          filterConditions.push(` loss_date >= $${params} AND loss_date <= $${params + 1}`)
           params++
         }
 

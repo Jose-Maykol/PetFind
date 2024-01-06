@@ -72,7 +72,7 @@ export default function ReportSightingMap ({ idPetReport }) {
           zoom={15}
           center={defaultLocation}
         >
-          <HeatmapLayer data={coordinates} />
+          <HeatmapLayerF data={coordinates} />
           {markers.map((markers, index) => (
             <MarkerF
               key={index}
