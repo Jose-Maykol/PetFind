@@ -1,4 +1,4 @@
-import { Button, Input, Popover, PopoverContent, PopoverTrigger, Select, SelectItem, Textarea } from '@nextui-org/react'
+import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Popover, PopoverContent, PopoverTrigger, Select, SelectItem, Textarea } from '@nextui-org/react'
 import CalendarIcon from './../../components/Icons/CalendarIcon'
 import { useState } from 'react'
 import Calendar from 'react-calendar'
@@ -9,8 +9,10 @@ import UploadPetPhoto from './components/UploadPetPhoto'
 import ReportMap from './components/ReportMap'
 import PetReportService from '../../services/PetReportService'
 import { useNavigate } from 'react-router-dom'
+import useAuthStore from '../../store/useAuthStore'
 
 export default function ReportPage () {
+  const { isLoged } = useAuthStore()
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
   const navigate = useNavigate()
@@ -44,6 +46,27 @@ export default function ReportPage () {
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
+      {isLoged === false && (
+        <Modal isOpen backdrop='blur' onClose={() => navigate('/')}>
+          <ModalContent>
+            <ModalHeader className='flex justify-center'> ¡Debes iniciar sesion! </ModalHeader>
+            <ModalBody>
+              <p>
+                Para reportar una mascota perdida debes iniciar sesion
+              </p>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color='primary'
+                onClick={() => { window.location.href = 'http://localhost:8000/auth/google' }}
+                className='w-full'
+              >
+                Iniciar sesion
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
       <div className='w-[700px]'>
         <h2 className='font-bold text-lg'>Reportar mascota perdida</h2>
         <form onSubmit={handleSubmit}>
@@ -103,7 +126,13 @@ export default function ReportPage () {
               classNames={{ label: 'text-neutral-400' }}
               required
             />
-            <ReportMap />
+            {isLoged === true
+              ? (
+                <ReportMap />
+                )
+              : (
+                <div className='flex flex-col gap-4 justify-between animate-pulse bg-neutral-200 w-full h-[400px]' />
+                )}
             <div className='flex flex-row gap-2 items-end'>
               <Input
                 type='text'
