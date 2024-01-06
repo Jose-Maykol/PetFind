@@ -7,11 +7,9 @@ import Calendar from 'react-calendar'
 import { useState } from 'react'
 import { PropTypes } from 'prop-types'
 
-export default function ReportFilters ({ onSearchChange }) {
+export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
-  // const [dates, setDates] = useState([new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), new Date()])
-  const [dates, setDates] = useState([null, null]) // [startDate, endDate
-
+  const [dates, setDates] = useState([null, null])
   const [search, setSearch] = useState('')
 
   const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
@@ -27,6 +25,12 @@ export default function ReportFilters ({ onSearchChange }) {
 
   const onChangeDate = (dates) => {
     setDates(dates)
+  }
+
+  const handleFiltersChange = () => {
+    onFiltersChange({
+      dates
+    })
   }
 
   return (
@@ -100,6 +104,7 @@ export default function ReportFilters ({ onSearchChange }) {
           <Button
             color='primary'
             className='w-full'
+            onClick={handleFiltersChange}
           >
             Filtrar
           </Button>
@@ -110,5 +115,6 @@ export default function ReportFilters ({ onSearchChange }) {
 }
 
 ReportFilters.propTypes = {
-  onSearchChange: PropTypes.func
+  onSearchChange: PropTypes.func,
+  onFiltersChange: PropTypes.func
 }
