@@ -51,8 +51,8 @@ const listPetReports = async (req, res) => {
       filters.loss_date_end = req.query.loss_date_end
     }
 
-    if (req.query.pet_type_id) {
-      filters.pet_type_id = req.query.pet_type_id
+    if (req.query.pet_type_ids && req.query.pet_type_ids.length > 0) {
+      filters.pet_type_ids = req.query.pet_type_ids.split(',')
     }
 
     const pets = await Pet.list(page, limit, filters)

@@ -58,10 +58,11 @@ class Pet {
           params += 2
         }
 
-        if (filters.pet_type_id) {
-          filterValues.push(filters.pet_type_id)
-          filterConditions.push(` pet_type_id = $${params}`)
-          params++
+        if (filters.pet_type_ids && filters.pet_type_ids.length > 0) {
+          const petTypeIds = filters.pet_type_ids.map((petTypeId, index) => `$${params + index}`).join(', ')
+          filterValues.push(...filters.pet_type_ids)
+          filterConditions.push(` pet_type_id IN (${petTypeIds})`)
+          params += filters.pet_type_ids.length
         }
 
         queryString += filterConditions.join(' AND ')
