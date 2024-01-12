@@ -10,6 +10,7 @@ import { PropTypes } from 'prop-types'
 export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [dates, setDates] = useState([null, null])
+  const [selectedPetTypes, setSelectedPetTypes] = useState([])
   const [search, setSearch] = useState('')
 
   const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
@@ -29,7 +30,8 @@ export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
 
   const handleFiltersChange = () => {
     onFiltersChange({
-      dates
+      dates,
+      selectedPetTypes
     })
   }
 
@@ -84,6 +86,8 @@ export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
         <div className='py-4'>
           <CheckboxGroup
             label='Tipo de mascota'
+            value={selectedPetTypes}
+            onValueChange={(value) => setSelectedPetTypes(value)}
             classNames={{
               label: 'text-small font-medium text-black'
             }}

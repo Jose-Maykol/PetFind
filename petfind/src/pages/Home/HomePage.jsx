@@ -15,7 +15,8 @@ export default function HomePage () {
     page,
     name: search,
     lossDateStart: filters.dates[0],
-    lossDateEnd: filters.dates[1]
+    lossDateEnd: filters.dates[1],
+    petTypeIds: filters.selectedPetTypes ? filters.selectedPetTypes.join(',') : ''
   }), {
     retry: 2,
     staleTime: Infinity
