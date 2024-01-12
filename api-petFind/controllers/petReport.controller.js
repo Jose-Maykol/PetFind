@@ -58,6 +58,14 @@ const listPetReports = async (req, res) => {
     const pets = await Pet.list(page, limit, filters)
     const totalPets = await Pet.getTotal(filters)
 
+    if (pets.length === 0) {
+      const response = {
+        status: 0,
+        message: 'No se encontraron reportes'
+      }
+      return res.status(404).json(response)
+    }
+
     const response = {
       status: 1,
       data: {
