@@ -232,11 +232,11 @@ class Pet {
     try {
       const query = {
         text: `
-        SELECT 
-          pets.*, 
+        SELECT
           users.name AS user_name, 
           users.surname AS user_surname, 
           users.profile_picture AS user_profile_picture,
+          users.email AS user_email,
           reports.comment AS report_comment,
           reports.datetime AS report_datetime,
           reports.coordinates AS report_coordinates

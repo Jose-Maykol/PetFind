@@ -218,11 +218,11 @@ const updatePetReportStatus = async (req, res) => {
 
 const getReportsSightings = async (req, res) => {
   try {
-    // const { userId } = req.user
-    const petReport = await Pet.getReportsSightings(req.params.id)
-    console.log(petReport)
+    const { userId } = req.user
+    const petReports = await Pet.getReportsSightings(req.params.id)
+    const pet = await Pet.getOwn(req.params.id, userId)
 
-    if (!petReport) {
+    if (!petReports) {
       const response = {
         status: 0,
         message: 'No se encontró el reporte'
@@ -232,7 +232,10 @@ const getReportsSightings = async (req, res) => {
 
     const response = {
       status: 1,
-      data: petReport
+      data: {
+        pet_reports: petReports,
+        pet
+      }
     }
     res.status(200).json(response)
   } catch (error) {
