@@ -29,30 +29,29 @@ export default function ReportSightingMap ({ coordinates }) {
     }
   }, [isLoaded, coordinates])
 
-  if (coordinates.length === 0) {
-    return (
-      <div className='w-full h-[400px] border-2 border-dashed rounded-md border-neutral-500 flex justify-center items-center'>
-        <p>Sin avistamientos</p>
-      </div>
-    )
+  if (!isLoaded) {
+    return <div className='w-full h-[400px] my-4 animate-pulse' />
   }
 
   return (
-    <div className='w-full h-[400px] py-4'>
-      {isLoaded && heatMapData.length > 0 &&
+    <div className='w-full h-[400px] my-4'>
+      {heatMapData.length > 0 && (
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '400px' }}
           zoom={15}
           center={defaultLocation}
         >
-          <HeatmapLayerF data={heatMapData} options={{ radius: 40 }} />
+          <HeatmapLayerF data={heatMapData} options={{ radius: 60 }} />
           {coordinates.map((coordinate, index) => (
-            <MarkerF
-              key={index}
-              position={coordinate}
-            />
+            <MarkerF key={index} position={coordinate} />
           ))}
-        </GoogleMap>}
+        </GoogleMap>
+      )}
+      {heatMapData.length === 0 && (
+        <div className='w-full h-[400px] border-2 border-dashed rounded-md border-neutral-500 flex justify-center items-center my-4'>
+          <p>Sin avistamientos</p>
+        </div>
+      )}
     </div>
   )
 }

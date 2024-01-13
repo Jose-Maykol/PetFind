@@ -8,19 +8,16 @@ import ReportSightingMap from './components/ReportSightingMap'
 
 export default function MyReportPage () {
   const { isLoged } = useAuthStore()
-  const [coordinates, setCoordinates] = useState([])
+  const [coordinates, setCoordinates] = useState(null)
   const params = useParams()
   const { id } = params
 
   const { data, isLoading } = useQuery(['myPetReport', id], async () => {
     const res = await PetReportService.getReportsSightings(id)
-    console.log(res)
     return res.data
   }, {
     retry: 2,
-    staleTime: Infinity,
     onSuccess: (res) => {
-      console.log(res)
       setCoordinates(
         res.petReports.map(coordinate => ({
           lat: coordinate.reportCoordinates.x,
@@ -53,7 +50,7 @@ export default function MyReportPage () {
     <section className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
       <div className='w-[700px]'>
         <h2 className='font-bold text-lg'>Reportes para {data.pet.name}</h2>
-        {data && <ReportSightingMap coordinates={coordinates} />}
+        {data && coordinates !== null && <ReportSightingMap coordinates={coordinates} />}
         <div className='flex flex-col items-start w-full my-8 gap-4'>
           {data.petReports.map((report, index) => (
             <div key={index} className='w-full'>
