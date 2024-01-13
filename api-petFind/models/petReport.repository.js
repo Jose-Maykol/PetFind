@@ -89,7 +89,21 @@ class Pet {
   async listOwn (id) {
     try {
       const query = {
-        text: 'SELECT id, name, loss_date, photo, phone, reward, coordinates FROM pets WHERE user_id = $1',
+        text: `
+        SELECT
+          pets.id,
+          pets.name,
+          pets.loss_date,
+          pets.photo,
+          pets.phone,
+          pets.reward,
+          pets.coordinates,
+          COUNT(reports.id) AS report_count
+        FROM pets
+        LEFT JOIN reports ON pets.id = reports.pet_id
+        WHERE pets.user_id = $1
+        GROUP BY pets.id
+      `,
         values: [id]
       }
       const result = await this.pool.query(query)
