@@ -38,7 +38,7 @@ export default function ReportSightingMap ({ coordinates }) {
   }
 
   return (
-    <div className='w-full h-[400px]'>
+    <div className='w-full h-[400px] py-4'>
       {isLoaded && heatMapData.length > 0 &&
         <GoogleMap
           mapContainerStyle={{ width: '100%', height: '400px' }}

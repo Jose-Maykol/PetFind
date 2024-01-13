@@ -13,7 +13,7 @@ import HomePage from './pages/Home/HomePage'
 import MyReportsPage from './pages/MyReports/MyReportsPage'
 import LostPetReportPage from './pages/LostPetReport/LostPetReportPage'
 import NewReportSighting from './pages/NewReportSighting/NewReportSighting'
-import MyReportPage from './pages/MyReports/MyReportDetail'
+import MyReportPage from './pages/MyReports/MyReportPage'
 
 const queryClient = new QueryClient()
 
