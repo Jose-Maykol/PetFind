@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { PropTypes } from 'prop-types'
 
 export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
+  const [filtered, setFiltered] = useState(false)
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [dates, setDates] = useState([null, null])
   const [selectedPetTypes, setSelectedPetTypes] = useState([])
@@ -33,6 +34,7 @@ export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
       dates,
       selectedPetTypes
     })
+    setFiltered(true)
   }
 
   return (
@@ -48,7 +50,7 @@ export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
           radius='sm'
           placeholder='Buscar'
         />
-        <Button isIconOnly color='primary' aria-label='search' onClick={handleSearch}>
+        <Button isIconOnly color='primary' aria-label='search' onClick={handleSearch} isDisabled={!search}>
           <SearchIcon width={24} height={24} fill='fill-white' />
         </Button>
       </div>
@@ -105,13 +107,31 @@ export default function ReportFilters ({ onSearchChange, onFiltersChange }) {
           </CheckboxGroup>
         </div>
         <div>
-          <Button
-            color='primary'
-            className='w-full'
-            onClick={handleFiltersChange}
-          >
-            Filtrar
-          </Button>
+          {filtered
+            ? (
+              <Button
+                color='primary'
+                className='w-full'
+                onClick={() => {
+                  setFiltered(false)
+                  onFiltersChange({
+                    dates: [null, null],
+                    selectedPetTypes: []
+                  })
+                }}
+              >
+                Limpiar filtros
+              </Button>
+              )
+            : (
+              <Button
+                color='primary'
+                className='w-full'
+                onClick={handleFiltersChange}
+                isDisabled={!dates[0] && !dates[1] && !selectedPetTypes.length}
+              >
+                Filtrar
+              </Button>)}
         </div>
       </div>
     </div>
