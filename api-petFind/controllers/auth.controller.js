@@ -1,8 +1,11 @@
+require('dotenv').config()
 require('../config/passport.config')
 const passport = require('passport')
 const User = require('../models/user.repository')
 const { createToken } = require('../config/jwt.config')
 const autenticateWithGoogle = passport.authenticate('google', { scope: ['openid', 'email', 'profile'] })
+
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
 const handleGoogleCallback = async (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, async (err, user, info) => {
@@ -42,16 +45,16 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const jwtToken = createToken({ userId: userData.id })
-      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
-      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
+      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
     }
     res.redirect('http://localhost:5173')
   })(req, res, next)
 }
 
 const logout = (req, res) => {
-  res.clearCookie('accessToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
-  res.clearCookie('jwtToken', { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
+  res.clearCookie('accessToken', { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+  res.clearCookie('jwtToken', { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
   res.status(200).json({ message: 'Se ha cerrado la sesión' })
 }
 
