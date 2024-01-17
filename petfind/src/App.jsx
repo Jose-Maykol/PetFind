@@ -7,7 +7,7 @@ import {
   QueryClientProvider
 } from 'react-query'
 import './index.css'
-import { SpeedInsights } from '@vercel/speed-insights/next'
+import { injectSpeedInsights } from '@vercel/speed-insights'
 import NavBar from './components/NavBar'
 import ReportPage from './pages/ReportPage/ReportPage'
 import HomePage from './pages/Home/HomePage'
@@ -17,6 +17,7 @@ import NewReportSighting from './pages/NewReportSighting/NewReportSighting'
 import MyReportPage from './pages/MyReports/MyReportPage'
 
 const queryClient = new QueryClient()
+injectSpeedInsights()
 
 const router = createBrowserRouter([
   {
@@ -54,7 +55,6 @@ function App () {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <SpeedInsights />
     </QueryClientProvider>
   )
 }
