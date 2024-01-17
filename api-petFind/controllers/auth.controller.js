@@ -27,8 +27,8 @@ const handleGoogleCallback = async (req, res, next) => {
       }
       const jwtToken = createToken({ userId: userData.id })
       // await User.saveToken(existingUser.id, jwtToken)
-      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
-      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: 'localhost', secure: false, sameSite: 'strict' })
+      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
     } else {
       const newUser = {
         name: user.name.givenName,
