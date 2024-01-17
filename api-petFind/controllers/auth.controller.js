@@ -27,8 +27,8 @@ const handleGoogleCallback = async (req, res, next) => {
       }
       const jwtToken = createToken({ userId: userData.id })
       // await User.saveToken(existingUser.id, jwtToken)
-      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'None' })
-      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'None' })
+      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'none' })
+      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'none' })
     } else {
       const newUser = {
         name: user.name.givenName,
@@ -48,16 +48,16 @@ const handleGoogleCallback = async (req, res, next) => {
       const jwtToken = createToken({ userId: userData.id })
       /* res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
       res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' }) */
-      res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'None' })
-      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'None' })
+      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'none' })
+      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: true, sameSite: 'none' })
     }
     res.redirect(CLIENT_URL)
   })(req, res, next)
 }
 
 const logout = (req, res) => {
-  res.clearCookie('accessToken', { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
-  res.clearCookie('jwtToken', { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+  res.clearCookie('accessToken', { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+  res.clearCookie('jwtToken', { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
   res.status(200).json({ message: 'Se ha cerrado la sesión' })
 }
 
