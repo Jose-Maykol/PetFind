@@ -7,6 +7,7 @@ import {
   QueryClientProvider
 } from 'react-query'
 import './index.css'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import NavBar from './components/NavBar'
 import ReportPage from './pages/ReportPage/ReportPage'
 import HomePage from './pages/Home/HomePage'
@@ -53,6 +54,7 @@ function App () {
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
+      <SpeedInsights />
     </QueryClientProvider>
   )
 }
