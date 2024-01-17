@@ -11,7 +11,7 @@ const port = process.env.PORT || 8000
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URL,
   credentials: true
 }
 
