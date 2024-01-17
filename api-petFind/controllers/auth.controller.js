@@ -6,6 +6,7 @@ const { createToken } = require('../config/jwt.config')
 const autenticateWithGoogle = passport.authenticate('google', { scope: ['openid', 'email', 'profile'] })
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const CLIENT_URL = process.env.CLIENT_URL
 
 const handleGoogleCallback = async (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, async (err, user, info) => {
@@ -48,7 +49,7 @@ const handleGoogleCallback = async (req, res, next) => {
       res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
       res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
     }
-    res.redirect('http://localhost:5173')
+    res.redirect(CLIENT_URL)
   })(req, res, next)
 }
 
