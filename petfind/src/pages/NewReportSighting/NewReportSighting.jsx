@@ -6,6 +6,7 @@ import ReportMap from '../ReportPage/components/ReportMap'
 import ReportService from '../../services/ReportService'
 import { useNavigate, useParams } from 'react-router-dom'
 import useAuthStore from './../../store/useAuthStore'
+import { API_URL } from '../../config/config'
 
 export default function NewReportSighting () {
   const { isLoged } = useAuthStore()
@@ -50,7 +51,7 @@ export default function NewReportSighting () {
             <ModalFooter>
               <Button
                 color='primary'
-                onClick={() => { window.location.href = 'http://localhost:8000/auth/google' }}
+                onClick={() => { window.location.href = `${API_URL}/auth/google` }}
                 className='w-full'
               >
                 Iniciar sesion

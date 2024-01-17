@@ -10,6 +10,7 @@ import ReportMap from './components/ReportMap'
 import PetReportService from '../../services/PetReportService'
 import { useNavigate } from 'react-router-dom'
 import useAuthStore from '../../store/useAuthStore'
+import { API_URL } from '../../config/config'
 
 export default function ReportPage () {
   const { isLoged } = useAuthStore()
@@ -58,7 +59,7 @@ export default function ReportPage () {
             <ModalFooter>
               <Button
                 color='primary'
-                onClick={() => { window.location.href = 'http://localhost:8000/auth/google' }}
+                onClick={() => { window.location.href = `${API_URL}/auth/google` }}
                 className='w-full'
               >
                 Iniciar sesion

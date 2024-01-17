@@ -7,6 +7,7 @@ import { useQuery } from 'react-query'
 import UserService from '../services/UserService'
 import useAuthStore from '../store/useAuthStore'
 import LogOutIcon from './Icons/LogOutIcon'
+import { API_URL } from '../config/config'
 
 export default function NavBar () {
   const [isLogged, setIsLogged] = useState(false)
@@ -14,7 +15,7 @@ export default function NavBar () {
   const { setTokens } = useAuthStore()
 
   const handleLoginWithGoogle = () => {
-    window.location.href = 'http://localhost:8000/auth/google'
+    window.location.href = `${API_URL}/auth/google`
   }
 
   const handleLogout = () => {
