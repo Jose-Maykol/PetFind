@@ -1,0 +1,18 @@
+{
+  "functions": {
+    "api-petfind/app.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/",
+      "dest": "petfind/dist"
+    },
+    {
+      "src": "/.*",
+      "dest": "api-petfind/app.js"
+    }
+  ]
+}
