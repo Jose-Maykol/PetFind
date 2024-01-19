@@ -32,11 +32,13 @@ const handleGoogleCallback = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
           maxAge: 86400000,
+          sameSite: false,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
           httpOnly: false,
           maxAge: 86400000,
+          sameSite: false,
           secure: true
         })
       } else if (ENV === 'development') {
@@ -76,11 +78,13 @@ const handleGoogleCallback = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
           maxAge: 86400000,
+          sameSite: false,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
           httpOnly: false,
           maxAge: 86400000,
+          sameSite: false,
           secure: true
         })
       } else if (ENV === 'development') {
