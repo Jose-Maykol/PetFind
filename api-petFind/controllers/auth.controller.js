@@ -32,13 +32,13 @@ const handleGoogleCallback = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
           maxAge: 86400000,
-          sameSite: false,
+          sameSite: 'None',
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
           httpOnly: true,
           maxAge: 86400000,
-          sameSite: false,
+          sameSite: 'None',
           secure: true
         })
       } else if (ENV === 'development') {
@@ -78,13 +78,13 @@ const handleGoogleCallback = async (req, res, next) => {
         res.cookie('accessToken', accessToken, {
           httpOnly: true,
           maxAge: 86400000,
-          sameSite: false,
+          sameSite: 'None',
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
           httpOnly: true,
           maxAge: 86400000,
-          sameSite: false,
+          sameSite: 'None',
           secure: true
         })
       } else if (ENV === 'development') {
@@ -113,11 +113,13 @@ const logout = (req, res) => {
     res.clearCookie('accessToken', {
       httpOnly: true,
       maxAge: 86400000,
+      sameSite: 'None',
       secure: true
     })
     res.clearCookie('jwtToken', {
       httpOnly: true,
       maxAge: 86400000,
+      sameSite: 'None',
       secure: true
     })
   } else if (ENV === 'development') {
