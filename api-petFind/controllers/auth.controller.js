@@ -36,7 +36,7 @@ const handleGoogleCallback = async (req, res, next) => {
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
-          httpOnly: false,
+          httpOnly: true,
           maxAge: 86400000,
           sameSite: false,
           secure: true
@@ -82,7 +82,7 @@ const handleGoogleCallback = async (req, res, next) => {
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
-          httpOnly: false,
+          httpOnly: true,
           maxAge: 86400000,
           sameSite: false,
           secure: true
@@ -116,7 +116,7 @@ const logout = (req, res) => {
       secure: true
     })
     res.clearCookie('jwtToken', {
-      httpOnly: false,
+      httpOnly: true,
       maxAge: 86400000,
       secure: true
     })
