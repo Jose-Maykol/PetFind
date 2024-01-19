@@ -7,6 +7,7 @@ const autenticateWithGoogle = passport.authenticate('google', { scope: ['openid'
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 const CLIENT_URL = process.env.CLIENT_URL
+const ENV = process.env.NODE_ENV
 
 const handleGoogleCallback = async (req, res, next) => {
   passport.authenticate('google', { failureRedirect: '/' }, async (err, user, info) => {
@@ -26,9 +27,34 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const jwtToken = createToken({ userId: userData.id })
-      // await User.saveToken(existingUser.id, jwtToken)
-      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000, secure: true })
-      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000, secure: true })
+
+      if (ENV === 'production') {
+        res.cookie('accessToken', accessToken, {
+          httpOnly: true,
+          maxAge: 86400000,
+          secure: true
+        })
+        res.cookie('jwtToken', jwtToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          secure: true
+        })
+      } else if (ENV === 'development') {
+        res.cookie('accessToken', accessToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          domain: CLIENT_DOMAIN,
+          secure: false,
+          sameSite: 'strict'
+        })
+        res.cookie('jwtToken', jwtToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          domain: CLIENT_DOMAIN,
+          secure: false,
+          sameSite: 'strict'
+        })
+      }
     } else {
       const newUser = {
         name: user.name.givenName,
@@ -46,18 +72,66 @@ const handleGoogleCallback = async (req, res, next) => {
         profile_picture: user.photos[0].value
       }
       const jwtToken = createToken({ userId: userData.id })
-      /* res.cookie('accessToken', accessToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
-      res.cookie('jwtToken', jwtToken, { httpOnly: false, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' }) */
-      res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 86400000, secure: true })
-      res.cookie('jwtToken', jwtToken, { httpOnly: true, maxAge: 86400000, secure: true })
+      if (ENV === 'production') {
+        res.cookie('accessToken', accessToken, {
+          httpOnly: true,
+          maxAge: 86400000,
+          secure: true
+        })
+        res.cookie('jwtToken', jwtToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          secure: true
+        })
+      } else if (ENV === 'development') {
+        res.cookie('accessToken', accessToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          domain: CLIENT_DOMAIN,
+          secure: false,
+          sameSite: 'strict'
+        })
+        res.cookie('jwtToken', jwtToken, {
+          httpOnly: false,
+          maxAge: 86400000,
+          domain: CLIENT_DOMAIN,
+          secure: false,
+          sameSite: 'strict'
+        })
+      }
     }
     res.redirect(CLIENT_URL)
   })(req, res, next)
 }
 
 const logout = (req, res) => {
-  res.clearCookie('accessToken', { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
-  res.clearCookie('jwtToken', { httpOnly: true, maxAge: 86400000, domain: CLIENT_DOMAIN, secure: false, sameSite: 'strict' })
+  if (ENV === 'production') {
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+      maxAge: 86400000,
+      secure: true
+    })
+    res.clearCookie('jwtToken', {
+      httpOnly: false,
+      maxAge: 86400000,
+      secure: true
+    })
+  } else if (ENV === 'development') {
+    res.clearCookie('accessToken', {
+      httpOnly: false,
+      maxAge: 86400000,
+      domain: CLIENT_DOMAIN,
+      secure: false,
+      sameSite: 'strict'
+    })
+    res.clearCookie('jwtToken', {
+      httpOnly: false,
+      maxAge: 86400000,
+      domain: CLIENT_DOMAIN,
+      secure: false,
+      sameSite: 'strict'
+    })
+  }
   res.status(200).json({ message: 'Se ha cerrado la sesión' })
 }
 
