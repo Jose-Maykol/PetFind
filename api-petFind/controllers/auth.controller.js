@@ -34,14 +34,14 @@ const handleGoogleCallback = async (req, res, next) => {
           path: '/',
           maxAge: 86400000,
           sameSite: 'None',
-          // domain: CLIENT_DOMAIN,
+          domain: CLIENT_DOMAIN,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
           // httpOnly: true,
           path: '/',
           maxAge: 86400000,
-          // domain: CLIENT_DOMAIN,
+          domain: CLIENT_DOMAIN,
           sameSite: 'None',
           secure: true
         })
@@ -84,7 +84,7 @@ const handleGoogleCallback = async (req, res, next) => {
           path: '/',
           maxAge: 86400000,
           sameSite: 'None',
-          // domain: CLIENT_DOMAIN,
+          domain: CLIENT_DOMAIN,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
@@ -92,7 +92,7 @@ const handleGoogleCallback = async (req, res, next) => {
           path: '/',
           maxAge: 86400000,
           sameSite: 'None',
-          // domain: CLIENT_DOMAIN,
+          domain: CLIENT_DOMAIN,
           secure: true
         })
       } else if (ENV === 'development') {
@@ -123,7 +123,7 @@ const logout = (req, res) => {
       path: '/',
       maxAge: 86400000,
       sameSite: 'None',
-      // domain: CLIENT_DOMAIN,
+      domain: CLIENT_DOMAIN,
       secure: true
     })
     res.clearCookie('jwtToken', {
@@ -131,7 +131,7 @@ const logout = (req, res) => {
       path: '/',
       maxAge: 86400000,
       sameSite: 'None',
-      // domain: CLIENT_DOMAIN,
+      domain: CLIENT_DOMAIN,
       secure: true
     })
   } else if (ENV === 'development') {
