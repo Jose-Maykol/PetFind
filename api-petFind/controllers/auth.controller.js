@@ -30,14 +30,16 @@ const handleGoogleCallback = async (req, res, next) => {
 
       if (ENV === 'production') {
         res.cookie('accessToken', accessToken, {
-          httpOnly: true,
+          // httpOnly: true,
           maxAge: 86400000,
           sameSite: 'None',
+          domain: CLIENT_DOMAIN,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
-          httpOnly: true,
+          // httpOnly: true,
           maxAge: 86400000,
+          domain: CLIENT_DOMAIN,
           sameSite: 'None',
           secure: true
         })
@@ -76,15 +78,17 @@ const handleGoogleCallback = async (req, res, next) => {
       const jwtToken = createToken({ userId: userData.id })
       if (ENV === 'production') {
         res.cookie('accessToken', accessToken, {
-          httpOnly: true,
+          // httpOnly: true,
           maxAge: 86400000,
           sameSite: 'None',
+          domain: CLIENT_DOMAIN,
           secure: true
         })
         res.cookie('jwtToken', jwtToken, {
-          httpOnly: true,
+          // httpOnly: true,
           maxAge: 86400000,
           sameSite: 'None',
+          domain: CLIENT_DOMAIN,
           secure: true
         })
       } else if (ENV === 'development') {
@@ -111,15 +115,17 @@ const handleGoogleCallback = async (req, res, next) => {
 const logout = (req, res) => {
   if (ENV === 'production') {
     res.clearCookie('accessToken', {
-      httpOnly: true,
+      // httpOnly: true,
       maxAge: 86400000,
       sameSite: 'None',
+      domain: CLIENT_DOMAIN,
       secure: true
     })
     res.clearCookie('jwtToken', {
-      httpOnly: true,
+      // httpOnly: true,
       maxAge: 86400000,
       sameSite: 'None',
+      domain: CLIENT_DOMAIN,
       secure: true
     })
   } else if (ENV === 'development') {
