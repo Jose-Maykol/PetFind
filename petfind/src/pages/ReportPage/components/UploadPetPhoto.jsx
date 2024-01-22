@@ -24,7 +24,6 @@ export default function UploadPetPhoto () {
 
   return (
     <div className='flex items-center justify-center w-[300px]'>
-
       <div className={`relative items-center justify-center w-[300px] ${petPhoto ? '' : 'hidden'}`}>
         <img src={petPhoto} alt='pet' className='object-cover w-full h-64 rounded-lg' />
         <Button
@@ -50,7 +49,6 @@ export default function UploadPetPhoto () {
           onChange={handlePhotoChange}
         />
       </label>
-
     </div>
   )
 }

@@ -15,6 +15,7 @@ import MyReportsPage from './pages/MyReports/MyReportsPage'
 import LostPetReportPage from './pages/LostPetReport/LostPetReportPage'
 import NewReportSighting from './pages/NewReportSighting/NewReportSighting'
 import MyReportPage from './pages/MyReports/MyReportPage'
+import EditMyReportPage from './pages/MyReports/EditMyReportPage'
 
 const queryClient = new QueryClient()
 injectSpeedInsights()
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: '/my-reports/:id',
         element: <MyReportPage />
+      },
+      {
+        path: '/my-reports/:id/edit',
+        element: <EditMyReportPage />
       },
       {
         path: '/lost-pet-report/:id',

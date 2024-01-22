@@ -1,14 +1,15 @@
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api'
 import { GOOGLE_MAPS_API_KEY } from '../../../config/config'
 import { useState } from 'react'
+import { PropTypes } from 'prop-types'
 
-export default function ReportMap () {
+export default function ReportMap ({ initialPosition }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: GOOGLE_MAPS_API_KEY
   })
 
-  const defaultLocation = {
+  const defaultLocation = initialPosition || {
     lat: -16.3989200592041,
     lng: -71.5367660522461
   }
@@ -37,4 +38,8 @@ export default function ReportMap () {
       <input type='hidden' name='lng' value={markerPosition.lng} />
     </div>
   )
+}
+
+ReportMap.propTypes = {
+  initialPosition: PropTypes.object
 }

@@ -1,9 +1,15 @@
 import { Button } from '@nextui-org/react'
 import DeleteIcon from '../../../components/Icons/DeleteIcon'
 import EditIcon from '../../../components/Icons/EditIcon'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function MyPetReportCard ({ petReport }) {
+  const navigate = useNavigate()
+
+  const handleEditPage = () => {
+    navigate(`/my-reports/${petReport.id}/edit`)
+  }
+
   return (
     <Link to={`/my-reports/${petReport.id}`}>
       <div className='w-[200px] h-[280px] rounded-md shadow-lg'>
@@ -21,6 +27,7 @@ export default function MyPetReportCard ({ petReport }) {
               isIconOnly
               startContent={<EditIcon width={20} height={20} fill='fill-white' />}
               className='rounded-md bg-[#F87272] hover:bg-[#F87272]'
+              onPress={handleEditPage}
             />
             <Button
               color='primary'
