@@ -25,12 +25,26 @@ export default function NavBar () {
   }
 
   useEffect(() => {
-    const accessToken = Cookies.get('accessToken')
-    const jwtToken = Cookies.get('jwtToken')
-    if (accessToken && jwtToken) {
-      setIsLogged(true)
-      setTokens({ accessToken, jwtToken })
+    console.log('useEffect 1 login')
+    const urlParams = new URLSearchParams(window.location.search)
+    const code = urlParams.get('code')
+    if (code) {
+      Cookies.set('accessToken', code, {
+        expires: 1
+        // secure: true
+      })
     }
+  }, [])
+
+  useEffect(() => {
+    const accessToken = Cookies.get('accessToken')
+    console.log('useEffect 2 login')
+    console.log(accessToken)
+    if (accessToken) {
+      setIsLogged(true)
+      setTokens({ accessToken })
+    }
+    console.log(isLogged)
   }, [])
 
   const userQuery = useQuery('user', UserService.getInfoUser, {

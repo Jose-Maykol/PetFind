@@ -3,14 +3,12 @@ import Cookies from 'js-cookie'
 
 const useAuthStore = create((set, get) => ({
   accessToken: Cookies.get('accessToken') || null,
-  jwtToken: Cookies.get('jwtToken') || null,
-  isLoged: !!(Cookies.get('accessToken') || Cookies.get('jwtToken')),
+  isLoged: !!Cookies.get('accessToken'),
 
-  setTokens: (accessToken, jwtToken) => {
+  setTokens: (accessToken) => {
     set((state) => ({
       accessToken: state.accessToken,
-      jwtToken: state.jwtToken,
-      isLoged: !!accessToken || !!jwtToken
+      isLoged: !!accessToken
     }))
   }
 }))

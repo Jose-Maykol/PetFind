@@ -18,7 +18,7 @@ api.interceptors.response.use((response) => {
 })
 
 api.interceptors.request.use((config) => {
-  const jwtToken = Cookies.get('jwtToken')
+  const accessToken = Cookies.get('accessToken')
 
   const newConfig = { ...config }
   newConfig.url = `${API_URL}${config.url}`
@@ -35,8 +35,8 @@ api.interceptors.request.use((config) => {
     newConfig.data = decamelizeKeys(config.data)
   }
 
-  if (jwtToken) {
-    newConfig.headers.Authorization = `Bearer ${jwtToken}`
+  if (accessToken) {
+    newConfig.headers.Authorization = `Bearer ${accessToken}`
   }
 
   return newConfig
