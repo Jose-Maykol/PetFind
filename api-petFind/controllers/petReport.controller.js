@@ -1,11 +1,14 @@
 const Pet = require('../models/petReport.repository')
 const { uploadToCloudinary, deleteFromCloudinary } = require('./cloudinary.controller')
+const fs = require('fs')
 
 const createPetReport = async (req, res) => {
   try {
     const { userId } = req.user
     const imagePet = req.file
     const imagePetUrl = await uploadToCloudinary(imagePet)
+
+    fs.unlinkSync(req.file.path)
 
     const petReportData = {
       user_id: userId,
@@ -149,8 +152,7 @@ const updatePetReport = async (req, res) => {
     const { userId } = req.user
     const petId = req.params.id
     const imagePet = req.file
-    const imagePetUrl = await uploadToCloudinary(imagePet)
-
+    let imagePetUrl = null
     const petReport = await Pet.getOwn(petId, userId)
 
     if (!petReport) {
@@ -161,8 +163,14 @@ const updatePetReport = async (req, res) => {
       return res.status(404).json(response)
     }
 
-    const oldImagePetUrl = petReport.photo
-    await deleteFromCloudinary(oldImagePetUrl)
+    if (imagePet) {
+      imagePetUrl = await uploadToCloudinary(imagePet)
+      const oldImagePetUrl = petReport.photo
+      if (oldImagePetUrl) {
+        await deleteFromCloudinary(oldImagePetUrl)
+      }
+      fs.unlinkSync(req.file.path)
+    }
 
     const petReportData = {
       id: req.params.id,
@@ -174,17 +182,15 @@ const updatePetReport = async (req, res) => {
       age_months: parseInt(req.body.age_months),
       description: req.body.description,
       loss_date: new Date().toISOString(),
-      photo: imagePetUrl,
+      photo: imagePetUrl || petReport.photo,
       phone: req.body.phone,
       reward: parseFloat(req.body.reward),
       coordinates: `(${parseFloat(req.body.lat)}, ${parseFloat(req.body.lng)})`
     }
-
-    const updatedPetReport = await Pet.update(petReportData)
+    await Pet.update(petReportData)
     const response = {
       status: 1,
-      message: 'Reporte actualizado con éxito',
-      data: updatedPetReport
+      message: 'Reporte actualizado con éxito'
     }
     res.status(200).json(response)
   } catch (error) {
