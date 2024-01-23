@@ -40,11 +40,11 @@ class PetReportService {
 
   async createPetReport (data) {
     try {
-      const jwtToken = Cookies.get('jwtToken')
+      const accessToken = Cookies.get('accessToken')
       const response = await api.post('/pet-reports/own', data, {
         headers: {
           ...api.defaults.headers,
-          Authorization: `Bearer ${jwtToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'multipart/form-data'
         }
       })
