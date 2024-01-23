@@ -54,6 +54,30 @@ class PetReportService {
     }
   }
 
+  async updatePetReport (id, data) {
+    try {
+      const response = await api.put(`/pet-reports/own/${id}`, data)
+      return response.data
+    } catch (error) {
+      return error.response.data
+    }
+  }
+
+  async updatePetStatus (id, data) {
+    try {
+      const accessToken = Cookies.get('accessToken')
+      const response = await api.put(`/pet-reports/own/${id}/status`, data, {
+        headers: {
+          ...api.defaults.headers,
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      return response.data
+    } catch (error) {
+      return error.response.data
+    }
+  }
+
   async getReportsSightings (id) {
     try {
       const response = await api.get(`/pet-reports/own/${id}/reports`)
