@@ -16,52 +16,26 @@ export default function EditMyReportPage () {
   const { isLoged } = useAuthStore()
   const [isOpenCalendar, setIsOpenCalendar] = useState(false)
   const [date, setDate] = useState(new Date())
+  const [photo, setPhoto] = useState(null)
   const params = useParams()
   const { id } = params
 
-  const petTypesQuery = useQuery('petTypes', PetTypesService.getAll, {
+  const { data: dataPetType } = useQuery('petTypes', PetTypesService.getAll, {
     retry: 2,
     staleTime: Infinity
   })
 
-  const petTypes = petTypesQuery.data?.data.petTypes
-
-  const [petReport, setPetReport] = useState({
-    name: '',
-    photo: '',
-    pet_type_id: '',
-    age_years: 0,
-    age_months: 0,
-    description: '',
-    lossDate: '',
-    phone: '',
-    reward: 0
-  })
-
-  const { isLoading } = useQuery(['myOwnPetReport', id], async () => {
+  const { data, isLoading } = useQuery(['myOwnPetReport', id], async () => {
     const res = await PetReportService.getReportsSightings(id)
     return res.data
   }, {
     retry: 2,
     staleTime: Infinity,
     onSuccess: (res) => {
-      setPetReport({
-        name: res.pet.name,
-        photo: res.pet.photo,
-        pet_type_id: petTypes?.find((petType) => petType.id === res.pet.petTypeId)?.tag,
-        age_years: res.pet.ageYears,
-        age_months: res.pet.ageMonths,
-        description: res.pet.description,
-        lossDate: res.pet.lossDate,
-        phone: res.pet.phone,
-        reward: res.pet.reward,
-        coordinates: res.pet.coordinates
-      })
       setDate(new Date(res.pet.lossDate))
+      setPhoto(res.pet.photo)
     }
   })
-
-  console.log(petReport)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -102,18 +76,18 @@ export default function EditMyReportPage () {
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 py-4'>
             <div className='flex flex-row gap-6'>
-              {petReport.photo
+              {photo
                 ? (
                   <div className='w-[300px] h-64 relative'>
                     <img
-                      src={petReport.photo}
+                      src={photo}
                       alt='pet'
                       className='object-cover w-[300px] h-64 rounded-lg'
                     />
                     <Button
                       isIconOnly
                       className='absolute bottom-[10px] right-[10px] w-10 h-10 rounded-full bg-red-500'
-                      onClick={() => setPetReport((prev) => ({ ...prev, photo: null }))}
+                      onClick={() => setPhoto(null)}
                     >
                       <CloseIcon width={20} height={20} fill='fill-white' />
                     </Button>
@@ -124,7 +98,7 @@ export default function EditMyReportPage () {
                   )}
               <div className='flex flex-col gap-4 py-4'>
                 <Input
-                  value={petReport.name}
+                  value={data.pet.name}
                   type='text'
                   name='name'
                   label='Nombre de la mascota'
@@ -132,22 +106,21 @@ export default function EditMyReportPage () {
                   placeholder='Ingrese el nombre de la mascota'
                   selectionMode='single'
                   classNames={{ label: 'text-neutral-400' }}
-                  onValueChange={(value) => setPetReport({ ...petReport, name: value })}
                   required
                 />
                 <Select
-                  defaultSelectedKeys={[petReport.pet_type_id]}
+                  defaultSelectedKeys={[`${data.pet.petTypeId}`]}
                   label='Tipo de mascota'
                   name='pet_type_id'
                   labelPlacement='outside'
                   placeholder='Seleccione el tipo de mascota'
                   selectionMode='single'
                   classNames={{ label: 'text-neutral-400', value: 'capitalize' }}
-                  onValueChange={(value) => setPetReport({ ...petReport, pet_type_id: value })}
+                  // onValueChange={(value) => setPetReport({ ...petReport, pet_type_id: value })}
                   disallowEmptySelection
                   required
                 >
-                  {petTypes?.map((petType) => (
+                  {dataPetType?.data.petTypes.map((petType) => (
                     <SelectItem key={petType.id} value={petType.id} className='capitalize'>
                       {petType.tag}
                     </SelectItem>
@@ -155,7 +128,7 @@ export default function EditMyReportPage () {
                 </Select>
                 <div className='flex flex-row gap-2 items-end'>
                   <Input
-                    value={petReport.age_years}
+                    value={data.pet.ageYears}
                     type='number'
                     name='age_years'
                     label='Edad de la mascota'
@@ -163,38 +136,35 @@ export default function EditMyReportPage () {
                     placeholder='Años'
                     classNames={{ label: 'text-neutral-400' }}
                     required
-                    onValueChange={(value) => setPetReport({ ...petReport, age_years: value })}
                   />
                   <Input
-                    value={petReport.age_months}
+                    value={data.pet.ageMonths}
                     type='number'
                     name='age_months'
                     labelPlacement='outside'
                     placeholder='Meses'
                     classNames={{ label: 'text-neutral-400' }}
                     required
-                    onValueChange={(value) => setPetReport({ ...petReport, age_months: value })}
                   />
                 </div>
               </div>
             </div>
             <Textarea
-              value={petReport.description}
+              value={data.pet.description}
               label='Descripcion'
               name='description'
               labelPlacement='outside'
               placeholder='Ingrese una descripcion de la mascota'
               classNames={{ label: 'text-neutral-400' }}
               required
-              onValueChange={(value) => setPetReport({ ...petReport, description: value })}
             />
             {isLoged === true
               ? (
-                  (petReport.coordinates?.x && petReport.coordinates?.y) && (
+                  (data.pet.coordinates?.x && data.pet.coordinates?.y) && (
                     <ReportMap
                       initialPosition={{
-                        lat: parseFloat(petReport.coordinates?.x),
-                        lng: parseFloat(petReport.coordinates?.y)
+                        lat: parseFloat(data.pet.coordinates?.x),
+                        lng: parseFloat(data.pet.coordinates?.y)
                       }}
                     />
                   )
@@ -235,18 +205,17 @@ export default function EditMyReportPage () {
               </Popover>
             </div>
             <Input
-              value={petReport.phone}
+              value={data.pet.phone}
               type='text'
               name='phone'
               label='Numero de contacto'
               labelPlacement='outside'
               placeholder='Ingrese el numero de contacto'
               classNames={{ label: 'text-neutral-400' }}
-              onValueChange={(value) => setPetReport({ ...petReport, phone: value })}
               required
             />
             <Input
-              value={petReport.reward}
+              value={data.pet.reward}
               type='number'
               name='reward'
               label='Recompensa'
@@ -255,7 +224,6 @@ export default function EditMyReportPage () {
               classNames={{ label: 'text-neutral-400' }}
               className='flex-1'
               required
-              onValueChange={(value) => setPetReport({ ...petReport, reward: value })}
             />
           </div>
           <div className='flex flex-row gap-4'>
