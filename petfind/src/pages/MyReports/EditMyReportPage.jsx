@@ -43,9 +43,9 @@ export default function EditMyReportPage () {
       const form = new FormData(e.target)
       const data = Object.fromEntries(form.entries())
       console.log(data)
-      /* PetReportService.createPetReport(data).then((res) => {
+      PetReportService.updatePetReport(id, data).then((res) => {
         console.log(res)
-      }) */
+      })
       navigate('/my-reports')
     } catch (error) {
       console.log(error)
@@ -71,11 +71,11 @@ export default function EditMyReportPage () {
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
-      <div className='w-[700px]'>
+      <div className='max-w-[700px]'>
         <h2 className='font-bold text-lg'>Reportar mascota perdida</h2>
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 py-4'>
-            <div className='flex flex-row gap-6'>
+            <div className='flex flex-col sm:flex-row gap-6 items-center'>
               {photo
                 ? (
                   <div className='w-[300px] h-64 relative'>
@@ -98,7 +98,7 @@ export default function EditMyReportPage () {
                   )}
               <div className='flex flex-col gap-4 py-4'>
                 <Input
-                  value={data.pet.name}
+                  defaultValue={data.pet.name}
                   type='text'
                   name='name'
                   label='Nombre de la mascota'
@@ -128,7 +128,7 @@ export default function EditMyReportPage () {
                 </Select>
                 <div className='flex flex-row gap-2 items-end'>
                   <Input
-                    value={data.pet.ageYears}
+                    defaultValue={data.pet.ageYears}
                     type='number'
                     name='age_years'
                     label='Edad de la mascota'
@@ -138,7 +138,7 @@ export default function EditMyReportPage () {
                     required
                   />
                   <Input
-                    value={data.pet.ageMonths}
+                    defaultValue={data.pet.ageMonths}
                     type='number'
                     name='age_months'
                     labelPlacement='outside'
@@ -150,7 +150,7 @@ export default function EditMyReportPage () {
               </div>
             </div>
             <Textarea
-              value={data.pet.description}
+              defaultValue={data.pet.description}
               label='Descripcion'
               name='description'
               labelPlacement='outside'
@@ -174,8 +174,7 @@ export default function EditMyReportPage () {
                 )}
             <div className='flex flex-row gap-2 items-end'>
               <Input
-                value={date.toLocaleDateString()}
-                // value={petReport.lossDate}
+                defaultValue={data.pet.location}
                 type='text'
                 name='lossDate'
                 label='Fecha de desaparicion'
@@ -205,7 +204,7 @@ export default function EditMyReportPage () {
               </Popover>
             </div>
             <Input
-              value={data.pet.phone}
+              defaultValue={data.pet.location}
               type='text'
               name='phone'
               label='Numero de contacto'
@@ -215,7 +214,7 @@ export default function EditMyReportPage () {
               required
             />
             <Input
-              value={data.pet.reward}
+              defaultValue={data.pet.location}
               type='number'
               name='reward'
               label='Recompensa'

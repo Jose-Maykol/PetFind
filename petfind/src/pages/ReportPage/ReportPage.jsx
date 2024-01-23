@@ -68,11 +68,11 @@ export default function ReportPage () {
           </ModalContent>
         </Modal>
       )}
-      <div className='w-[700px]'>
+      <div className='max-w-[700px]'>
         <h2 className='font-bold text-lg'>Reportar mascota perdida</h2>
         <form onSubmit={handleSubmit}>
           <div className='flex flex-col gap-4 py-4'>
-            <div className='flex flex-row gap-6'>
+            <div className='flex flex-col sm:flex-row gap-6 items-center'>
               <UploadPetPhoto />
               <div className='flex flex-col gap-4 py-4'>
                 <Input

@@ -25,7 +25,7 @@ export default function MyReportsPage () {
   if (isLoading) {
     return (
       <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
-        <div className='w-[700px]'>
+        <div className='max-w-[700px]'>
           <h2 className='font-bold text-lg pb-4'> Mis reportes </h2>
           <div className='w-full h-[100px] flex flex-row flex-wrap items-center justify-center'>
             <Spinner />
@@ -37,7 +37,7 @@ export default function MyReportsPage () {
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
-      <div className='w-[700px]'>
+      <div className='max-w-[1200px] mx-4 sm:mx-0 xl:w-[1200px]'>
         <h2 className='font-bold text-lg pb-4'> Mis reportes </h2>
         <div className='flex-1 w-full flex flex-row flex-wrap items-center justify-center gap-6 pl-0 flex-shrink-0 sm:gap-10 sm:justify-start'>
           {data.map((petReport) => (

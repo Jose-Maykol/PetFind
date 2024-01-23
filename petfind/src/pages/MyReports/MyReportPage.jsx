@@ -2,9 +2,11 @@ import { Navigate, useParams } from 'react-router-dom'
 import PetReportService from '../../services/PetReportService'
 import { useQuery } from 'react-query'
 import useAuthStore from '../../store/useAuthStore'
-import { Spinner, User } from '@nextui-org/react'
+import { Button, Chip, Spinner, User } from '@nextui-org/react'
 import { useState } from 'react'
 import ReportSightingMap from './components/ReportSightingMap'
+import CheckIcon from '../../components/Icons/CheckIcon'
+import CloseIcon from '../../components/Icons/CloseIcon'
 
 export default function MyReportPage () {
   const { isLoged } = useAuthStore()
@@ -12,7 +14,7 @@ export default function MyReportPage () {
   const params = useParams()
   const { id } = params
 
-  const { data, isLoading } = useQuery(['myPetReport', id], async () => {
+  const { data, isLoading, refetch } = useQuery(['myPetReport', id], async () => {
     const res = await PetReportService.getReportsSightings(id)
     return res.data
   }, {
@@ -26,6 +28,8 @@ export default function MyReportPage () {
       )
     }
   })
+
+  console.log(data)
 
   if (isLoged === false) {
     return (
@@ -46,10 +50,44 @@ export default function MyReportPage () {
     )
   }
 
+  const handleChangePetStatus = () => {
+    if (data.pet.reportStatusId === 1) {
+      PetReportService.updatePetStatus(id, { status_id: 2 }).then((res) => {
+        refetch()
+      })
+    } else {
+      PetReportService.updatePetStatus(id, { status_id: 1 }).then((res) => {
+        refetch()
+      })
+    }
+  }
+
   return (
     <section className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
       <div className='w-[700px]'>
-        <h2 className='font-bold text-lg'>Reportes para {data.pet.name}</h2>
+        <div className='flex flex-row justify-between items-center'>
+          <h2 className='font-bold text-lg'>Reportes para {data.pet.name}</h2>
+          <div className='flex flex-row gap-2 items-center'>
+            <Chip color='primary' size='small' className='text-sm' variant='flat'>
+              {data.pet.reportStatusId === 1 ? 'No encontrado' : 'Encontrado'}
+            </Chip>
+            <Button
+              isIconOnly
+              color='primary'
+              // variant='ghost'
+              onPress={handleChangePetStatus}
+              startContent={
+              data.pet.reportStatusId === 1
+                ? (
+                  <CheckIcon width={20} height={20} fill='fill-white' />
+                  )
+                : (
+                  <CloseIcon width={20} height={20} fill='fill-white' />
+                  )
+            }
+            />
+          </div>
+        </div>
         {data && coordinates !== null && <ReportSightingMap coordinates={coordinates} />}
         <div className='flex flex-col items-start w-full my-8 gap-4'>
           {data.petReports.map((report, index) => (

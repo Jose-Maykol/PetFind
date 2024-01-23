@@ -31,8 +31,8 @@ export default function LostPetReportPage () {
 
   return (
     <div className='w-screen max-w-full flex flex-col items-center justify-center py-2'>
-      <div className='w-[700px]'>
-        <div className='flex flex-row justify-between'>
+      <div className='max-w-[700px]'>
+        <div className='flex flex-row justify-between pb-4'>
           <h2 className='font-bold text-lg'>{petReport?.name}</h2>
           <Link
             to={`/lost-pet-report/${petReport?.id}/new-sighting`}
@@ -42,7 +42,7 @@ export default function LostPetReportPage () {
           </Link>
         </div>
         <div className='flex flex-col gap-2 text-neutral-400'>
-          <div className='flex flex-row gap-4 py-4'>
+          <div className='flex flex-col sm:flex-row gap-6 items-center'>
             <img
               className='w-[250px] h-[250px] object-cover rounded-md'
               src={petReport?.photo}

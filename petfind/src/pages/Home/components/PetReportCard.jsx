@@ -4,9 +4,15 @@ import CalendarIcon from '../../../components/Icons/CalendarIcon'
 import PhoneIcon from '../../../components/Icons/PhoneIcon'
 import formatDate from '../../../utils/formatDate'
 import { PropTypes } from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function PetReportCard ({ petReport }) {
+  const navigate = useNavigate()
+
+  const handleReportPage = () => {
+    navigate(`/lost-pet-report/${petReport.id}/new-sighting`)
+  }
+
   return (
     <Link to={`/lost-pet-report/${petReport.id}`}>
       <div className='w-[200px] h-[260px] rounded-md shadow-lg'>
@@ -27,12 +33,13 @@ export default function PetReportCard ({ petReport }) {
               className='w-[30px] h-[30px] max-w-[30px] min-w-unit-1 rounded-md p-0'
             >
               <Tooltip placement='top' content='Reportar'>
-                <Link
-                  to={`/lost-pet-report/${petReport.id}/new-sighting`}
-                  className='rounded-md px-4 py-2 font-bold text-white text-sm bg-[#F87272] hover:bg-[#F87272]'
+                <Button
+                  isIconOnly
+                  className='rounded-md font-bold bg-[#F87272] hover:bg-[#F87272]'
+                  onPress={handleReportPage}
                 >
                   <MapPointIcon width={20} height={20} fill='fill-white' />
-                </Link>
+                </Button>
               </Tooltip>
             </Button>
           </div>
