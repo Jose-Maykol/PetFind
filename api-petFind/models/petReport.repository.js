@@ -233,19 +233,19 @@ class Pet {
       const query = {
         text: `
         SELECT
-          users.name AS user_name, 
-          users.surname AS user_surname, 
-          users.profile_picture AS user_profile_picture,
-          users.email AS user_email,
+          reportingUser.name AS user_name,
+          reportingUser.surname AS user_surname,
+          reportingUser.profile_picture AS user_profile_picture,
+          reportingUser.email AS user_email,
           reports.comment AS report_comment,
           reports.datetime AS report_datetime,
           reports.coordinates AS report_coordinates
-        FROM 
-          pets 
-        INNER JOIN 
-          users ON pets.user_id = users.id 
-        INNER JOIN 
-          reports ON pets.id = reports.pet_id
+        FROM
+          reports
+        INNER JOIN
+          pets ON reports.pet_id = pets.id
+        INNER JOIN
+          users AS reportingUser ON reports.user_id = reportingUser.id
         WHERE 
           reports.pet_id = $1
         `,
