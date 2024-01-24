@@ -64,10 +64,10 @@ export default function MyReportPage () {
 
   return (
     <section className='w-screen max-w-full flex flex-col items-center justify-center py-6'>
-      <div className='w-[700px]'>
+      <div className='max-w-[700px] lg:w-[700px]'>
         <div className='flex flex-row justify-between items-center'>
           <h2 className='font-bold text-lg'>Reportes para {data.pet.name}</h2>
-          <div className='flex flex-row gap-2 items-center'>
+          <div className='pl-2 flex flex-row gap-2 items-center'>
             <Chip color='primary' size='small' className='text-sm' variant='flat'>
               {data.pet.reportStatusId === 1 ? 'No encontrado' : 'Encontrado'}
             </Chip>
@@ -92,14 +92,16 @@ export default function MyReportPage () {
         <div className='flex flex-col items-start w-full my-8 gap-4'>
           {data.petReports.map((report, index) => (
             <div key={index} className='w-full'>
-              <User
-                name={report.userName}
-                description={report.userEmail}
-                avatarProps={{ src: report.userProfilePicture }}
-              />
               <div className='flex flex-col rounded-md bg-neutral-100 p-3'>
-                <p className='self-end text-sm text-neutral-500 py-2'>{new Date(report.reportDatetime).toLocaleDateString()}</p>
-                <p>{report.reportComment}</p>
+                <div className='flex flex-row justify-between items-start pb-3'>
+                  <User
+                    name={report.userName}
+                    description={report.userEmail}
+                    avatarProps={{ src: report.userProfilePicture }}
+                  />
+                  <p className='self-start text-sm text-neutral-400'>{new Date(report.reportDatetime).toLocaleDateString()}</p>
+                </div>
+                <p className='text-sm text-neutral-800'>{report.reportComment}</p>
               </div>
             </div>
           ))}
