@@ -29,8 +29,7 @@ const createPetReport = async (req, res) => {
     console.log(newPetReport)
     const response = {
       status: 1,
-      message: 'Reporte creado con éxito',
-      data: newPetReport
+      message: 'Reporte creado con éxito'
     }
     res.status(201).json(response)
   } catch (error) {
@@ -214,7 +213,7 @@ const updatePetReportStatus = async (req, res) => {
 
     const response = {
       status: 1,
-      data: petReport
+      message: 'Estado actualizado con éxito'
     }
     res.status(200).json(response)
   } catch (error) {
