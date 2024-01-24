@@ -18,7 +18,6 @@ export default function ReportMap ({ initialPosition }) {
   const [markerPosition, setMarkerPosition] = useState(defaultLocation)
 
   const handleMapClick = (event) => {
-    console.log(event)
     const lat = event.latLng.lat()
     const lng = event.latLng.lng()
     setMarkerPosition({ lat, lng })

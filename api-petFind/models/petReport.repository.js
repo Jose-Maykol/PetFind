@@ -70,9 +70,6 @@ class Pet {
 
       queryString += ` OFFSET $${filterValues.length + 1} LIMIT $${filterValues.length + 2}`
 
-      console.log(queryString)
-      console.log(filterValues)
-
       const query = {
         text: queryString,
         values: [...filterValues, offset, limit]

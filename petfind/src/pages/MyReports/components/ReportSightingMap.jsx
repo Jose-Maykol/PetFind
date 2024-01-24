@@ -12,8 +12,6 @@ export default function ReportSightingMap ({ coordinates }) {
 
   const [heatMapData, setHeatMapData] = React.useState([])
 
-  console.log(coordinates)
-
   const defaultLocation = {
     lat: -16.3989200592041,
     lng: -71.5367660522461

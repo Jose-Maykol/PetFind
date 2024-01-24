@@ -29,8 +29,6 @@ export default function MyReportPage () {
     }
   })
 
-  console.log(data)
-
   if (isLoged === false) {
     return (
       <Navigate to='/' />

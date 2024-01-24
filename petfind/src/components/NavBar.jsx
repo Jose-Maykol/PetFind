@@ -25,7 +25,6 @@ export default function NavBar () {
   }
 
   useEffect(() => {
-    console.log('useEffect 1 login')
     const urlParams = new URLSearchParams(window.location.search)
     const code = urlParams.get('code')
     if (code) {
@@ -38,8 +37,6 @@ export default function NavBar () {
 
   useEffect(() => {
     const accessToken = Cookies.get('accessToken')
-    console.log('useEffect 2 login')
-    console.log(accessToken)
     if (accessToken) {
       setIsLogged(true)
       setTokens({ accessToken })

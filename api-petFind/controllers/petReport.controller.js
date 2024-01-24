@@ -25,8 +25,7 @@ const createPetReport = async (req, res) => {
       coordinates: `(${parseFloat(req.body.lat)}, ${parseFloat(req.body.lng)})`
     }
 
-    const newPetReport = await Pet.create(petReportData)
-    console.log(newPetReport)
+    await Pet.create(petReportData)
     const response = {
       status: 1,
       message: 'Reporte creado con éxito'

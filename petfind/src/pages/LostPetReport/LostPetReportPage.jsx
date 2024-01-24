@@ -23,8 +23,6 @@ export default function LostPetReportPage () {
     staleTime: Infinity
   })
 
-  console.log(data)
-
   if (isLoged === false) {
     return (
       <Navigate to='/' />

@@ -7,8 +7,6 @@ const createReport = async (req, res) => {
     const date = req.body.date
     const partsDate = date.split('/')
 
-    console.log(partsDate)
-
     const petReport = {
       user_id: userId,
       pet_id: petId,

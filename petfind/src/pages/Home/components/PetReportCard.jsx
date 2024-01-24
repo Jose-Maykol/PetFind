@@ -26,22 +26,15 @@ export default function PetReportCard ({ petReport }) {
         <div className='p-2 flex flex-col justify-between gap-2'>
           <div className='flex flex-row justify-between items-center'>
             <h3 className='text-base font-medium text-black'>{petReport.name}</h3>
-            <Button
-              isIconOnly
-              color='primary'
-              aria-label='map-point'
-              className='w-[30px] h-[30px] max-w-[30px] min-w-unit-1 rounded-md p-0'
-            >
-              <Tooltip placement='top' content='Reportar'>
-                <Button
-                  isIconOnly
-                  className='rounded-md font-bold bg-[#F87272] hover:bg-[#F87272]'
-                  onPress={handleReportPage}
-                >
-                  <MapPointIcon width={20} height={20} fill='fill-white' />
-                </Button>
-              </Tooltip>
-            </Button>
+            <Tooltip placement='top' content='Reportar'>
+              <Button
+                isIconOnly
+                className='rounded-md font-bold bg-[#F87272] hover:bg-[#F87272]'
+                onPress={handleReportPage}
+              >
+                <MapPointIcon width={20} height={20} fill='fill-white' />
+              </Button>
+            </Tooltip>
           </div>
           <div className='flex flex-row gap-2 max-h-[20px]'>
             <CalendarIcon width={20} height={20} fill='fill-neutral-400' />

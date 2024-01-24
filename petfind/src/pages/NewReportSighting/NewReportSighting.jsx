@@ -22,7 +22,6 @@ export default function NewReportSighting () {
     try {
       const form = new FormData(e.target)
       const data = Object.fromEntries(form.entries())
-      console.log(data)
       ReportService.createReport(data, id).then((res) => {
         console.log(res)
       })
