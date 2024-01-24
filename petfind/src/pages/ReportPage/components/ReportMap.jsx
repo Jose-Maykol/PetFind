@@ -6,7 +6,8 @@ import { PropTypes } from 'prop-types'
 export default function ReportMap ({ initialPosition }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries: ['visualization']
   })
 
   const defaultLocation = initialPosition || {

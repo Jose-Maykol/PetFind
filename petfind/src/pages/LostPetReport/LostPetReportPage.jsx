@@ -10,7 +10,8 @@ export default function LostPetReportPage () {
   const { isLoged } = useAuthStore()
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    libraries: ['visualization']
   })
 
   const params = useParams()
