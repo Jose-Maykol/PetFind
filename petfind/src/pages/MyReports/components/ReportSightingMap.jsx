@@ -1,4 +1,4 @@
-import { GoogleMap, HeatmapLayerF, MarkerF, useJsApiLoader } from '@react-google-maps/api'
+import { GoogleMap, HeatmapLayerF, useJsApiLoader } from '@react-google-maps/api'
 import { GOOGLE_MAPS_API_KEY } from '../../../config/config'
 import { PropTypes } from 'prop-types'
 import React, { useEffect } from 'react'
@@ -40,9 +40,9 @@ export default function ReportSightingMap ({ coordinates }) {
           center={defaultLocation}
         >
           <HeatmapLayerF data={heatMapData} options={{ radius: 60 }} />
-          {coordinates.map((coordinate, index) => (
+          {/* {coordinates.map((coordinate, index) => (
             <MarkerF key={index} position={coordinate} />
-          ))}
+          ))} */}
         </GoogleMap>
       )}
       {heatMapData.length === 0 && (
